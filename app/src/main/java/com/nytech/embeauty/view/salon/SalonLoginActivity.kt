@@ -1,10 +1,8 @@
-package com.nytech.embeauty.view
+package com.nytech.embeauty.view.salon
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.nytech.embeauty.R
-import com.nytech.embeauty.databinding.ActivityClientLoginBinding
 import com.nytech.embeauty.databinding.ActivitySalonLoginBinding
 
 /**
@@ -17,12 +15,14 @@ class SalonLoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         binding = ActivitySalonLoginBinding.inflate(layoutInflater)
+
+        supportActionBar?.hide()
+
         setContentView(binding.root)
 
         // botão para tela de cadastro de salão
         binding.textSignupSalon.setOnClickListener {
             val intent = Intent(this@SalonLoginActivity, SalonRegisterActivity::class.java)
-            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             startActivity(intent)
         }
     }

@@ -1,9 +1,8 @@
-package com.nytech.embeauty.view
+package com.nytech.embeauty.view.salon
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.nytech.embeauty.R
 import com.nytech.embeauty.databinding.ActivitySalonRegisterBinding
 
 /**
@@ -17,6 +16,9 @@ class SalonRegisterActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         binding = ActivitySalonRegisterBinding.inflate(layoutInflater)
+
+        supportActionBar?.hide()
+
         setContentView(binding.root)
 
         // botão para a tela de login do salão

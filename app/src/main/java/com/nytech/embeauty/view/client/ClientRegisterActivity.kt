@@ -1,9 +1,8 @@
-package com.nytech.embeauty.view
+package com.nytech.embeauty.view.client
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.nytech.embeauty.R
 import com.nytech.embeauty.databinding.ActivityClientRegisterBinding
 
 /**
@@ -17,6 +16,9 @@ class ClientRegisterActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         binding = ActivityClientRegisterBinding.inflate(layoutInflater)
+
+        supportActionBar?.hide()
+
         setContentView(binding.root)
 
         // botão para tela de login do cliente

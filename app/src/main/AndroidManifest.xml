@@ -12,16 +12,16 @@
         android:theme="@style/Theme.Embeauty"
         tools:targetApi="31">
         <activity
-            android:name=".view.SalonRegisterActivity"
+            android:name=".view.salon.SalonRegisterActivity"
             android:exported="false" />
         <activity
-            android:name=".view.ClientRegisterActivity"
+            android:name=".view.client.ClientRegisterActivity"
             android:exported="false" />
         <activity
-            android:name=".view.ClientLoginActivity"
+            android:name=".view.client.ClientLoginActivity"
             android:exported="false" />
         <activity
-            android:name=".view.SalonLoginActivity"
+            android:name=".view.salon.SalonLoginActivity"
             android:exported="false" />
         <activity
             android:name=".view.MainActivity"
