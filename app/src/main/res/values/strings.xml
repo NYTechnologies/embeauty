@@ -3,4 +3,11 @@
     <string name="sou_salao">Sou Salão</string>
     <string name="sou_cliente">Sou Cliente</string>
     <string name="bem_vinda_ao_embeauty">Bem-vinda ao embeauty!</string>
+    <string name="login_salao">Login - Salão</string>
+    <string name="email">Email</string>
+    <string name="senha">Senha</string>
+    <string name="login">Login</string>
+    <string name="cadastre_se">Cadastre-se</string>
+    <string name="ainda_nao_possui_cadastro">Ainda não possui cadastro?</string>
+    <string name="login_cliente">Login - Cliente</string>
 </resources>

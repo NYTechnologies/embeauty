@@ -4,9 +4,12 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.nytech.embeauty.R
 
-class SalonEntryActivity : AppCompatActivity() {
+/**
+ * Tela de Cadastro para salão
+ */
+class SalonRegisterActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_salon_entry)
+        setContentView(R.layout.activity_salon_register)
     }
 }

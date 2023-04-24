@@ -5,6 +5,9 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.nytech.embeauty.databinding.ActivityMainBinding
 
+/**
+ * Tela inicial da aplicação
+ */
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
@@ -16,10 +19,16 @@ class MainActivity : AppCompatActivity() {
 
         //botões página inicial
         binding.buttonLandingPageSalon.setOnClickListener {
-            startActivity(Intent(this@MainActivity, SalonEntryActivity::class.java))
+            val intent = Intent(this@MainActivity, SalonLoginActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            startActivity(intent)
+            finish()
         }
         binding.buttonLandingPageClient.setOnClickListener {
-            startActivity(Intent(this@MainActivity, ClientEntryActivity::class.java))
+            val intent = Intent(this@MainActivity, ClientLoginActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            startActivity(intent)
+            finish()
         }
     }
 }
