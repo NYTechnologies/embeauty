@@ -10,4 +10,8 @@
     <string name="cadastre_se">Cadastre-se</string>
     <string name="ainda_nao_possui_cadastro">Ainda não possui cadastro?</string>
     <string name="login_cliente">Login - Cliente</string>
+    <string name="cadastre_seu_salao">Cadastre seu Salão</string>
+    <string name="cadastrar">Cadastrar</string>
+    <string name="entre_aqui">Entre aqui</string>
+    <string name="ja_possui_cadastro">Já possui cadastro?</string>
 </resources>

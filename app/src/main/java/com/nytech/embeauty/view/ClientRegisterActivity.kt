@@ -1,5 +1,6 @@
 package com.nytech.embeauty.view
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.nytech.embeauty.R
@@ -18,7 +19,9 @@ class ClientRegisterActivity : AppCompatActivity() {
         binding = ActivityClientRegisterBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // botão para tela de login
-
+        // botão para tela de login do cliente
+        binding.textLoginClient.setOnClickListener {
+            startActivity(Intent(this@ClientRegisterActivity, ClientLoginActivity::class.java))
+        }
     }
 }
