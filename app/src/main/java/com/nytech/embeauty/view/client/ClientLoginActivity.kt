@@ -5,11 +5,11 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
-import com.nytech.embeauty.constants.ToastTextConstants
-import com.nytech.embeauty.databinding.ActivityClientHomeBinding
+import com.nytech.embeauty.constants.ToastTextConstants.LOGIN_REALIZADO_COM_SUCESSO
+import com.nytech.embeauty.constants.ToastTextConstants.POR_FAVOR_INSIRA_SEU_EMAIL
+import com.nytech.embeauty.constants.ToastTextConstants.POR_FAVOR_INSIRA_SUA_SENHA
 import com.nytech.embeauty.databinding.ActivityClientLoginBinding
-import com.nytech.embeauty.view.salon.SalonLoginActivity
+
 
 /**
  * Tela de Login para cliente
@@ -46,7 +46,7 @@ class ClientLoginActivity : AppCompatActivity() {
             if (email.isEmpty()) {
                 Toast.makeText(
                     this@ClientLoginActivity,
-                    ToastTextConstants.POR_FAVOR_INSIRA_SEU_EMAIL,
+                    POR_FAVOR_INSIRA_SEU_EMAIL,
                     Toast.LENGTH_SHORT
                 ).show()
                 return@setOnClickListener
@@ -56,7 +56,7 @@ class ClientLoginActivity : AppCompatActivity() {
             if (password.isEmpty()) {
                 Toast.makeText(
                     this@ClientLoginActivity,
-                    ToastTextConstants.POR_FAVOR_INSIRA_SUA_SENHA,
+                    POR_FAVOR_INSIRA_SUA_SENHA,
                     Toast.LENGTH_SHORT
                 ).show()
                 return@setOnClickListener
@@ -69,10 +69,10 @@ class ClientLoginActivity : AppCompatActivity() {
                     if (task.isSuccessful) {
                         Toast.makeText(
                             this@ClientLoginActivity,
-                            ToastTextConstants.LOGIN_REALIZADO_COM_SUCESSO,
+                            LOGIN_REALIZADO_COM_SUCESSO,
                             Toast.LENGTH_SHORT
                         ).show()
-                        //onde estou (@ClientLoginActivity) e para onde vou (ClientHomeActivity)... direciona o usuário p a próxima tela
+                        //onde estou (@ClientLoginActivity) e para onde vou (ClientHomeActivity)... direciona o usuário p a próxima tela (home)
                         val intent =
                             Intent(this@ClientLoginActivity, ClientHomeActivity::class.java)
                         startActivity(intent)
