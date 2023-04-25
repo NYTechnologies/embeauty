@@ -31,7 +31,7 @@ class SalonRegisterActivity : AppCompatActivity() {
 
         // botão para a tela de login do salão
         binding.textLoginSalon.setOnClickListener {
-            startActivity(Intent(this@SalonRegisterActivity, SalonLoginActivity::class.java))
+            onBackPressed()
         }
 
         // lógica de cadastro do novo salão no Firebase

@@ -31,11 +31,12 @@ class ClientRegisterActivity : AppCompatActivity() {
 
         // botão para tela de login do cliente
         binding.textLoginClient.setOnClickListener {
-            startActivity(Intent(this@ClientRegisterActivity, ClientLoginActivity::class.java))
+            onBackPressed()
         }
 
         // lógica de cadastro do novo cliente no Firebase
         binding.buttonRegisterClient.setOnClickListener {
+            //armazenam os dados digitados nos campos e-mail e senha pelo cliente
             val email = binding.editClientEmail.text.toString().trim { it <= ' ' }
             val password = binding.editClientPassword.text.toString().trim { it <= ' ' }
 

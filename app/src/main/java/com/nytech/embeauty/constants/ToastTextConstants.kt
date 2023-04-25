@@ -6,4 +6,5 @@ object ToastTextConstants {
     const val POR_FAVOR_INSIRA_SEU_EMAIL = "Por favor, insira o seu e-mail"
     const val POR_FAVOR_INSIRA_SUA_SENHA = "Por favor, insira a sua senha"
     const val CADASTRO_REALIZADO_COM_SUCESSO = "Cadastro realizado com sucesso!"
+    const val LOGIN_REALIZADO_COM_SUCESSO = "Login realizado com sucesso!"
 }
