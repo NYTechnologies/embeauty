@@ -15,26 +15,13 @@
             android:name=".view.salon.SalonHomeActivity"
             android:exported="false" />
         <activity
-            android:name=".view.client.ClientHomeActivity"
-            android:exported="false" />
-        <activity
             android:name=".view.salon.SalonRegisterActivity"
             android:exported="false" />
         <activity
-            android:name=".view.client.ClientRegisterActivity"
-            android:exported="false" />
-        <activity
-            android:name=".view.client.ClientLoginActivity"
-            android:exported="false" />
-        <activity
             android:name=".view.salon.SalonLoginActivity"
-            android:exported="false" />
-        <activity
-            android:name=".view.MainActivity"
-            android:exported="true">
+            android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

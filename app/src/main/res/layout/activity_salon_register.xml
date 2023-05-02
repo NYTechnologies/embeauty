@@ -20,7 +20,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:padding="16dp"
-            android:text="@string/cadastre_seu_salao"
+            android:text="@string/faca_o_seu_cadastro"
             android:textSize="24sp" />
 
         <!-- Email field -->

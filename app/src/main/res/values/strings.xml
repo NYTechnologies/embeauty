@@ -15,4 +15,6 @@
     <string name="entre_aqui">Entre aqui!</string>
     <string name="ja_possui_cadastro">Já possui cadastro?</string>
     <string name="cadastre_se_client">Cadastre-se</string>
+    <string name="entrar">Entrar</string>
+    <string name="faca_o_seu_cadastro">Faça o seu cadastro</string>
 </resources>
