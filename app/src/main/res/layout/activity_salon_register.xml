@@ -23,6 +23,42 @@
             android:text="@string/faca_o_seu_cadastro"
             android:textSize="24sp" />
 
+        <!-- Business Name field -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/til_salon_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/nome_fantasia"
+            app:endIconMode="clear_text"
+            app:helperText="Insira o nome fantasia do seu negócio">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edit_salon_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/gray_light"
+                android:inputType="text" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Phone field -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/til_salon_phone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/telefone"
+            app:endIconMode="clear_text"
+            app:helperText="Insira seu telefone">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edit_salon_phone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/gray_light"
+                android:inputType="phone" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
         <!-- Email field -->
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/til_salon_email"

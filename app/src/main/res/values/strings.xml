@@ -17,4 +17,6 @@
     <string name="cadastre_se_client">Cadastre-se</string>
     <string name="entrar">Entrar</string>
     <string name="faca_o_seu_cadastro">Faça o seu cadastro</string>
+    <string name="telefone">Telefone</string>
+    <string name="nome_fantasia">Nome Fantasia</string>
 </resources>
