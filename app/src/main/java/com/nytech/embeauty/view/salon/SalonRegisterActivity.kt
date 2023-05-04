@@ -122,7 +122,7 @@ class SalonRegisterActivity : AppCompatActivity() {
                                 val intent =
                                     Intent(
                                         this@SalonRegisterActivity,
-                                        SalonHomeActivity::class.java
+                                        SalonMainActivity::class.java
                                     )
                                 startActivity(intent)
                                 finish()

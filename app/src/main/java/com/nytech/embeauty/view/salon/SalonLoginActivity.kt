@@ -72,7 +72,7 @@ class SalonLoginActivity : AppCompatActivity() {
                         ).show()
                         //onde estou (@SalonLoginActivity) e para onde vou (SalonHomeActivity)... direciona o usuário p a próxima tela (home)
                         val intent =
-                            Intent(this@SalonLoginActivity, SalonHomeActivity::class.java)
+                            Intent(this@SalonLoginActivity, SalonMainActivity::class.java)
                         startActivity(intent)
                         finish()
                     } else {

@@ -12,7 +12,7 @@
         android:theme="@style/Theme.Embeauty"
         tools:targetApi="31">
         <activity
-            android:name=".view.salon.SalonHomeActivity"
+            android:name=".view.salon.SalonMainActivity"
             android:exported="false" />
         <activity
             android:name=".view.salon.SalonRegisterActivity"

@@ -19,4 +19,6 @@
     <string name="faca_o_seu_cadastro">Faça o seu cadastro</string>
     <string name="telefone">Telefone</string>
     <string name="nome_fantasia">Nome Fantasia</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

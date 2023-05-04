@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/salonHomeFragment"
+        android:icon="@drawable/baseline_home_24"
+        android:title="início" />
+    <item
+        android:id="@+id/salonAppointmentFragment"
+        android:icon="@drawable/baseline_calendar_month_24"
+        android:title="agendamentos" />
+    <item
+        android:id="@+id/salonServicesFragment"
+        android:icon="@drawable/baseline_subject_24"
+        android:title="serviços" />
+    <item
+        android:id="@+id/salonSettingsFragment"
+        android:icon="@drawable/baseline_settings_24"
+        android:title="configurações" />
+</menu>

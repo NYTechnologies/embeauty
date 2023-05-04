@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph.xml"
+    app:startDestination="@id/salonHomeFragment">
+
+    <fragment
+        android:id="@+id/salonHomeFragment"
+        android:name="com.nytech.embeauty.fragment.SalonHomeFragment"
+        android:label="fragment_salon_home"
+        tools:layout="@layout/fragment_salon_home" />
+    <fragment
+        android:id="@+id/salonAppointmentFragment"
+        android:name="com.nytech.embeauty.fragment.SalonAppointmentFragment"
+        android:label="fragment_salon_appointment"
+        tools:layout="@layout/fragment_salon_appointment" />
+    <fragment
+        android:id="@+id/salonServicesFragment"
+        android:name="com.nytech.embeauty.fragment.SalonServicesFragment"
+        android:label="fragment_salon_services"
+        tools:layout="@layout/fragment_salon_services" />
+    <fragment
+        android:id="@+id/salonSettingsFragment"
+        android:name="com.nytech.embeauty.fragment.SalonSettingsFragment"
+        android:label="fragment_salon_settings"
+        tools:layout="@layout/fragment_salon_settings" />
+</navigation>
