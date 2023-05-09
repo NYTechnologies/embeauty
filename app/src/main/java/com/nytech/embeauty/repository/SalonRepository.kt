@@ -1,11 +1,17 @@
 package com.nytech.embeauty.repository
 
 import android.app.Activity
+import android.os.Build
 import android.util.Log
+import androidx.annotation.RequiresApi
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.type.DateTime
 import com.nytech.embeauty.model.SalonModel
+import com.nytech.embeauty.model.getCurrentDate
 import com.nytech.embeauty.view.salon.SalonRegisterActivity
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
 
 /**
@@ -33,7 +39,7 @@ class SalonRepository {
             .set(salonModel)
             .addOnCompleteListener {
                 // Caso tenha sucesso no cadastro do salão, direcionar para a SalonMainActivity
-                when(activity) {
+                when (activity) {
                     is SalonRegisterActivity -> {
                         activity.salonRegisterSuccess()
                     }
@@ -45,31 +51,34 @@ class SalonRepository {
     }
 
     // função para retornar os serviços do salão que estiver logado no app
-    fun getServices(onResult: (List<SalonModel.Service>) -> Unit) {
+    fun getServicesForSalon(onComplete: (List<SalonModel.Service>) -> Unit) {
         myFirestore
             .collection(SALON_COLLECTION)
             .document(getCurrentUserID())
-            .collection(SERVICES_COLLECTION)
             .get()
-            .addOnSuccessListener { querySnapshot ->
-                // se der certo
-                val servicesList = mutableListOf<SalonModel.Service>()
-                querySnapshot.documents.forEach { document ->
-                    val data = document.data
-                    servicesList.add(SalonModel.Service(
-                        data!!["name"] as String,
-                        data["price"] as String,
-                        data["duration"] as String
-                    ))
-                }
-                Log.d("UserRepository", "Services returned: $servicesList")
-                onResult(servicesList)
-            }
-            .addOnFailureListener { exception ->
-                // se der errado
-                Log.w("UserRepository", "Error getting services: ", exception)
+            .addOnSuccessListener { documentSnapshot ->
+                // se der sucesso devolve uma lista com os serviços
+                val salonModel = documentSnapshot.toObject(SalonModel::class.java)
+                onComplete(salonModel?.services ?: emptyList())
+            }.addOnFailureListener {
+                // se falhar devolve uma lista vazia
+                onComplete(emptyList())
             }
     }
 
-
+    // função para retornar os agendamentos do salão que estiver logado no app
+    fun getAppointmentsOfTheDayForSalon(onComplete: (List<SalonModel.Appointment>) -> Unit) {
+        myFirestore
+            .collection(SALON_COLLECTION)
+            .document(getCurrentUserID())
+            .get()
+            .addOnSuccessListener { documentSnapshot ->
+                // se der sucesso devolve uma lista com os serviços
+                val salonModel = documentSnapshot.toObject(SalonModel::class.java)
+                onComplete(salonModel?.appointments?.filter { it.date == getCurrentDate() } ?: emptyList())
+            }.addOnFailureListener {
+                // se falhar devolve uma lista vazia
+                onComplete(emptyList())
+            }
+    }
 }

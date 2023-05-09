@@ -24,7 +24,7 @@ class SalonServicesFragment : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
 
-    private lateinit var salonRepository: SalonRepository
+    private val salonRepository: SalonRepository = SalonRepository()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,14 +38,16 @@ class SalonServicesFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
-        salonRepository = SalonRepository()
-
-        salonRepository.getServices { services ->
-            Log.d("SalonServicesFragment", "Services: $services")
-        }
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_salon_services, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        salonRepository.getServicesForSalon { services ->
+            Log.d("onViewCreated", "Services: $services")
+            //"Aqui temos acesso aos serviços do salão. Chamar classe de adapter e lançar esses dados numa ListView"
+        }
     }
 
     companion object {
