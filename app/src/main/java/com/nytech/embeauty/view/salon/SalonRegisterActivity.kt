@@ -5,8 +5,6 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FirebaseFirestore
-import com.nytech.embeauty.constants.FirebaseConstants.FIRESTORE_SALON_DB
 import com.nytech.embeauty.constants.ToastTextConstants.CADASTRO_REALIZADO_COM_SUCESSO
 import com.nytech.embeauty.constants.ToastTextConstants.POR_FAVOR_INSIRA_O_NOME_FANTASIA
 import com.nytech.embeauty.constants.ToastTextConstants.POR_FAVOR_INSIRA_O_NUMERO_TELEFONE
@@ -14,6 +12,7 @@ import com.nytech.embeauty.constants.ToastTextConstants.POR_FAVOR_INSIRA_SEU_EMA
 import com.nytech.embeauty.constants.ToastTextConstants.POR_FAVOR_INSIRA_SUA_SENHA
 import com.nytech.embeauty.databinding.ActivitySalonRegisterBinding
 import com.nytech.embeauty.model.SalonModel
+import com.nytech.embeauty.repository.SalonRepository
 
 /**
  * Tela de Cadastro para salão
@@ -22,14 +21,14 @@ class SalonRegisterActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivitySalonRegisterBinding
     private lateinit var firebaseAuth: FirebaseAuth
-    private lateinit var firebaseDB: FirebaseFirestore
+    private lateinit var salonRepository: SalonRepository
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         binding = ActivitySalonRegisterBinding.inflate(layoutInflater)
         firebaseAuth = FirebaseAuth.getInstance()
-        firebaseDB = FirebaseFirestore.getInstance()
+        salonRepository = SalonRepository()
 
         supportActionBar?.hide()
 
@@ -105,28 +104,8 @@ class SalonRegisterActivity : AppCompatActivity() {
                             email = salonEmail
                         )
 
-                        // Grava o SalonModel no DB Salon do FireStore
-                        firebaseDB
-                            .collection(FIRESTORE_SALON_DB)
-                            .document(uid)
-                            .set(salonModel)
-                            .addOnCompleteListener {
-                                //se o cadastro for completado com sucesso
-                                Toast.makeText(
-                                    this@SalonRegisterActivity,
-                                    CADASTRO_REALIZADO_COM_SUCESSO,
-                                    Toast.LENGTH_SHORT
-                                ).show()
-
-                                // redireciona para a home
-                                val intent =
-                                    Intent(
-                                        this@SalonRegisterActivity,
-                                        SalonMainActivity::class.java
-                                    )
-                                startActivity(intent)
-                                finish()
-                            }
+                        // Grava o SalonModel no DB Salon do FireStore usando o SalonRepository
+                        salonRepository.registerSalon(this@SalonRegisterActivity, salonModel)
                     } else {
                         //se o cadastro não for completado com sucesso
                         Toast.makeText(
@@ -137,5 +116,23 @@ class SalonRegisterActivity : AppCompatActivity() {
                     }
                 }
         }
+    }
+
+    fun salonRegisterSuccess() {
+        //se o cadastro for completo com sucesso, aparece a mensagem de sucesso
+        Toast.makeText(
+            this@SalonRegisterActivity,
+            CADASTRO_REALIZADO_COM_SUCESSO,
+            Toast.LENGTH_SHORT
+        ).show()
+
+        // redireciona para a home do salão
+        val intent =
+            Intent(
+                this@SalonRegisterActivity,
+                SalonMainActivity::class.java
+            )
+        startActivity(intent)
+        finish()
     }
 }
