@@ -6,8 +6,13 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import com.nytech.embeauty.R
+import com.nytech.embeauty.databinding.FragmentSalonHomeBinding
 import com.nytech.embeauty.repository.SalonRepository
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+import java.util.*
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -38,15 +43,29 @@ class SalonHomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_salon_home, container, false)
-    }
+        val view = inflater.inflate(R.layout.fragment_salon_home, container, false)
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        salonRepository.getAppointmentsOfTheDayForSalon { appointments ->
-            Log.d("SalonHomeFragment", "Appointments: $appointments")
+        // Formata a data de hoje em '<dia> de <mês>, <dia da semana>'
+        val dataAtual = LocalDateTime.now()
+        // Formato desejado da data
+        val formatoData = DateTimeFormatter.ofPattern("EEEE, d 'de' MMMM", Locale("pt", "BR"))
+        // String com a data formatada
+        val dataFormatada = dataAtual.format(formatoData)
+
+        //resgata a data do dia
+        val dataText = view.findViewById<TextView>(R.id.diaDeHojeTextView)
+        dataText.text = dataFormatada
+
+        //resgata o nome do usuário
+        salonRepository.getSalon { salon ->
+            Log.d("SalonHomeFragment", "Cliente: $salon")
+            val welcomeText = view.findViewById<TextView>(R.id.welcomeTextView)
+            welcomeText.text = "bem-vindo (a), ${salon.name},"
+
+            Log.d("SalonHomeFragment", "Agendamentos de hoje: ${salon.todayAppointments()}")
             // "Aqui temos acesso aos agendamentos do salão. Chamar classe de adapter e lançar esses dados numa ListView"
         }
+        return view
     }
 
     companion object {

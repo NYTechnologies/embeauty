@@ -5,11 +5,67 @@
     android:layout_height="match_parent"
     tools:context=".fragment.SalonHomeFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:gravity="center"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="tela de início" />
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="16dp"
+            android:layout_marginTop="40dp">
+
+            <TextView
+                android:id="@+id/titleTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:fontFamily="sans-serif"
+                android:text="embeauty"
+                android:textColor="#FD76A9"
+                android:textSize="24sp"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:id="@+id/welcomeTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif"
+                android:text="bem-vindo (a)"
+                android:textColor="@android:color/black"
+                android:textSize="18sp"
+                android:layout_marginTop="30dp"/>
+
+            <TextView
+                android:id="@+id/compromissosTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif"
+                android:text="estes são seus compromissos do dia:"
+                android:textColor="@android:color/black"
+                android:textSize="18sp"/>
+
+            <TextView
+                android:id="@+id/diaDeHojeTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:fontFamily="sans-serif"
+                android:text="dia de mês, dia da semana"
+                android:textColor="@android:color/black"
+                android:textSize="18sp"
+                android:layout_marginTop="15dp"/>
+
+            <ListView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                tools:ignore="NestedScrolling">
+            </ListView>
+
+        </LinearLayout>
+
+    </ScrollView>
 
 </FrameLayout>

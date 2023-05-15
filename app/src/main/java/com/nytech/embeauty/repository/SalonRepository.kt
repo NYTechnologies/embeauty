@@ -31,6 +31,22 @@ class SalonRepository {
     // Captura o User ID do usuário do app que está logado na nossa aplicação
     fun getCurrentUserID(): String = FirebaseAuth.getInstance().currentUser!!.uid
 
+    // Função para capturar os dados do salão
+    fun getSalon(onComplete: (SalonModel) -> Unit) {
+        myFirestore
+            .collection(SALON_COLLECTION)
+            .document(getCurrentUserID())
+            .get()
+            .addOnSuccessListener { documentSnapshot ->
+                // se der sucesso devolve uma lista com os serviços
+                val salonModel = documentSnapshot.toObject(SalonModel::class.java)
+                onComplete(salonModel ?: SalonModel())
+            }.addOnFailureListener {
+                // se falhar devolve uma lista vazia
+                onComplete(SalonModel())
+            }
+    }
+
     // Função para cadastrar novo Salão
     fun registerSalon(activity: Activity, salonModel: SalonModel) {
         myFirestore

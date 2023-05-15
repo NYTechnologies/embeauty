@@ -27,6 +27,8 @@ data class SalonModel(
         var duration: String = "",
         var serviceName: String = ""
     )
+
+    fun todayAppointments(): List<Appointment> = appointments.filter { it.date == getCurrentDate() }
 }
 
 // Função para gerar serviços genéricos
