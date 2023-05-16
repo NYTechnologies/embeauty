@@ -1,13 +1,17 @@
 package com.nytech.embeauty.fragment
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
+import android.widget.TextView
 import com.nytech.embeauty.R
 import com.nytech.embeauty.repository.SalonRepository
+import com.nytech.embeauty.view.salon.NewServiceActivity
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -47,6 +51,13 @@ class SalonServicesFragment : Fragment() {
         salonRepository.getServicesForSalon { services ->
             Log.d("onViewCreated", "Services: $services")
             //"Aqui temos acesso aos serviços do salão. Chamar classe de adapter e lançar esses dados numa ListView"
+        }
+
+        // botão para ir para a activity de adicionar um serviço
+        view.findViewById<ImageButton>(R.id.buttonNewService).setOnClickListener {
+            // Intent declarando de onde vc está saindo e para onde quer ir
+            val intent = Intent(activity, NewServiceActivity::class.java)
+            startActivity(intent)
         }
     }
 

@@ -9,6 +9,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.type.DateTime
 import com.nytech.embeauty.model.SalonModel
 import com.nytech.embeauty.model.getCurrentDate
+import com.nytech.embeauty.view.salon.NewServiceActivity
 import com.nytech.embeauty.view.salon.SalonRegisterActivity
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
@@ -80,6 +81,36 @@ class SalonRepository {
                 // se falhar devolve uma lista vazia
                 onComplete(emptyList())
             }
+    }
+
+    // função para registrar um novo serviço
+    fun registerNewService(activity: Activity, service: SalonModel.Service) {
+        val salonRef = myFirestore.collection(SALON_COLLECTION).document(getCurrentUserID())
+
+        salonRef
+            .get()
+            .addOnSuccessListener { documentSnapshot ->
+                val salon = documentSnapshot.toObject(SalonModel::class.java)
+
+                if (salon != null) {
+                    val updatedServices = salon.services.toMutableList()
+                    updatedServices.add(service)
+                    salon.services = updatedServices
+
+                    salonRef
+                        .set(salon)
+                        .addOnSuccessListener {
+                            // caso dê sucesso, retornar para a SalonMainActivity
+                            when (activity) {
+                                is NewServiceActivity -> activity.registerNewServiceSuccess()
+                            }
+                        }.addOnFailureListener {
+                            TODO("Implementar alguma mensagem quando der erro no cadastro")
+                        }
+                }
+            }
+
+
     }
 
     // função para retornar os agendamentos do salão que estiver logado no app
