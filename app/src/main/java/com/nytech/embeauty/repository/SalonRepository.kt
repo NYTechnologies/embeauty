@@ -5,6 +5,7 @@ import android.os.Build
 import android.util.Log
 import androidx.annotation.RequiresApi
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.type.DateTime
 import com.nytech.embeauty.model.SalonModel
@@ -23,7 +24,6 @@ class SalonRepository {
 
     companion object Constants {
         const val SALON_COLLECTION = "Salon"
-        const val SERVICES_COLLECTION = "services"
     }
 
     // Captura referência do banco de dados FireStore
@@ -32,11 +32,17 @@ class SalonRepository {
     // Captura o User ID do usuário do app que está logado na nossa aplicação
     fun getCurrentUserID(): String = FirebaseAuth.getInstance().currentUser!!.uid
 
-    // Função para capturar os dados do salão
-    fun getSalon(onComplete: (SalonModel) -> Unit) {
+    // Captura a referência do documento do salão no FireStore
+    fun getSalonDocumentReference(): DocumentReference =
         myFirestore
             .collection(SALON_COLLECTION)
             .document(getCurrentUserID())
+
+    // Função para capturar os dados do salão
+    fun getSalon(onComplete: (SalonModel) -> Unit) {
+        val salonDocumentReference = getSalonDocumentReference()
+
+        salonDocumentReference
             .get()
             .addOnSuccessListener { documentSnapshot ->
                 // se der sucesso devolve uma lista com os serviços
@@ -50,9 +56,9 @@ class SalonRepository {
 
     // Função para cadastrar novo Salão
     fun registerSalon(activity: Activity, salonModel: SalonModel) {
-        myFirestore
-            .collection(SALON_COLLECTION)
-            .document(getCurrentUserID())
+        val salonDocumentReference = getSalonDocumentReference()
+
+        salonDocumentReference
             .set(salonModel)
             .addOnCompleteListener {
                 // Caso tenha sucesso no cadastro do salão, direcionar para a SalonMainActivity
@@ -69,9 +75,9 @@ class SalonRepository {
 
     // função para retornar os serviços do salão que estiver logado no app
     fun getServicesForSalon(onComplete: (List<SalonModel.Service>) -> Unit) {
-        myFirestore
-            .collection(SALON_COLLECTION)
-            .document(getCurrentUserID())
+        val salonDocumentReference = getSalonDocumentReference()
+
+        salonDocumentReference
             .get()
             .addOnSuccessListener { documentSnapshot ->
                 // se der sucesso devolve uma lista com os serviços
@@ -85,9 +91,9 @@ class SalonRepository {
 
     // função para registrar um novo serviço
     fun registerNewService(activity: Activity, service: SalonModel.Service) {
-        val salonRef = myFirestore.collection(SALON_COLLECTION).document(getCurrentUserID())
+        val salonDocumentReference = getSalonDocumentReference()
 
-        salonRef
+        salonDocumentReference
             .get()
             .addOnSuccessListener { documentSnapshot ->
                 val salon = documentSnapshot.toObject(SalonModel::class.java)
@@ -97,7 +103,7 @@ class SalonRepository {
                     updatedServices.add(service)
                     salon.services = updatedServices
 
-                    salonRef
+                    salonDocumentReference
                         .set(salon)
                         .addOnSuccessListener {
                             // caso dê sucesso, retornar para a SalonMainActivity
@@ -109,20 +115,19 @@ class SalonRepository {
                         }
                 }
             }
-
-
     }
 
     // função para retornar os agendamentos do salão que estiver logado no app
     fun getAppointmentsOfTheDayForSalon(onComplete: (List<SalonModel.Appointment>) -> Unit) {
-        myFirestore
-            .collection(SALON_COLLECTION)
-            .document(getCurrentUserID())
+        val salonDocumentReference = getSalonDocumentReference()
+
+        salonDocumentReference
             .get()
             .addOnSuccessListener { documentSnapshot ->
-                // se der sucesso devolve uma lista com os serviços
+                // se der sucesso devolve uma lista com os agendamentos do dia atual
                 val salonModel = documentSnapshot.toObject(SalonModel::class.java)
-                onComplete(salonModel?.appointments?.filter { it.date == getCurrentDate() } ?: emptyList())
+                onComplete(salonModel?.appointments?.filter { it.date == getCurrentDate() }
+                    ?: emptyList())
             }.addOnFailureListener {
                 // se falhar devolve uma lista vazia
                 onComplete(emptyList())

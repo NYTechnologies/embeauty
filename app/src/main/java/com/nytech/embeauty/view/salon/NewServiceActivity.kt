@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
+import com.nytech.embeauty.constants.IntentConstants
 import com.nytech.embeauty.constants.ToastTextConstants
 import com.nytech.embeauty.databinding.ActivityNewServiceBinding
 import com.nytech.embeauty.model.SalonModel
@@ -79,8 +80,8 @@ class NewServiceActivity : AppCompatActivity() {
         // se o cadastro do novo serviço for completado com sucesso, voltar a SalonMainActivity
         val intent = Intent(this@NewServiceActivity, SalonMainActivity::class.java)
 
-        // Envia para o SalonMainActivity qual fragment queremos ir
-        intent.putExtra("targetFragment", "SalonServicesFragment")
+        // Envia para o SalonMainActivity dizendo fragment queremos ir
+        intent.putExtra(IntentConstants.TARGET_FRAGMENT, IntentConstants.SALON_SERVICES_FRAGMENT)
         startActivity(intent)
         finish()
     }
