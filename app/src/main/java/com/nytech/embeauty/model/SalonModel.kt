@@ -33,8 +33,21 @@ data class SalonModel(
 
 // Função para gerar serviços genéricos
 private fun generateGenericServices() = listOf(
-    SalonModel.Service("Serviço 1", "R$ 20.00"),
-    SalonModel.Service("Serviço 2", "R$ 50.00")
+    SalonModel.Service("Unha Mão", "R$ 20.00"),
+    SalonModel.Service("Unha Pé", "R$ 50.00"),
+    SalonModel.Service("Depilação", "R$ 50.00"),
+    SalonModel.Service("Corte Simples", "R$ 50.00"),
+    SalonModel.Service("Progressiva", "R$ 50.00"),
+    SalonModel.Service("Sombrancelha", "R$ 50.00"),
+    SalonModel.Service("Pedicure", "R$ 50.00"),
+    SalonModel.Service("Cílios", "R$ 50.00"),
+    SalonModel.Service("Unha Mão", "R$ 20.00"),
+    SalonModel.Service("Unha Pé", "R$ 50.00"),
+    SalonModel.Service("Depilação", "R$ 50.00"),
+    SalonModel.Service("Corte Simples", "R$ 50.00"),
+    SalonModel.Service("Progressiva", "R$ 50.00"),
+    SalonModel.Service("Sombrancelha", "R$ 50.00"),
+    SalonModel.Service("Cílios", "R$ 50.00"),
 )
 
 private fun generateGenericAppointments() = listOf(

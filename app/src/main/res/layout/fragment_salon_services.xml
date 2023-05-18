@@ -6,40 +6,45 @@
     android:padding="8dp"
     tools:context=".fragment.SalonHomeFragment">
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
 
-        <LinearLayout
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <TextView
+            android:id="@+id/titleServices"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="40dp"
-            android:orientation="vertical"
-            android:padding="16dp">
+            android:layout_gravity="center_horizontal"
+            android:fontFamily="sans-serif"
+            android:text="serviços"
+            android:textColor="#FD76A9"
+            android:textSize="22sp"
+            android:textStyle="bold" />
 
-            <TextView
-                android:id="@+id/titleServices"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:fontFamily="sans-serif"
-                android:text="serviços"
-                android:textColor="#FD76A9"
-                android:textSize="22sp"
-                android:textStyle="bold" />
+        <TextView
+            android:id="@+id/textRegisterServices"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:fontFamily="sans-serif"
+            android:text="cadastre ou edite os serviços oferecidos pela sua empresa"
+            android:textColor="@android:color/black"
+            android:textSize="18sp" />
 
-            <TextView
-                android:id="@+id/textRegisterServices"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="30dp"
-                android:fontFamily="sans-serif"
-                android:text="cadastre ou edite os serviços oferecidos pela sua empresa"
-                android:textColor="@android:color/black"
-                android:textSize="18sp" />
+        <ListView
+            android:id="@+id/listViewSalonServices"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:elevation="@dimen/cardview_compat_inset_shadow"
+            tools:listitem="@layout/services_list_item"
+            android:layout_marginTop="20dp"/>
 
-        </LinearLayout>
-    </ScrollView>
+    </LinearLayout>
+
 
     <ImageButton
         android:id="@+id/buttonNewService"
@@ -49,6 +54,6 @@
         android:layout_margin="16dp"
         android:background="@drawable/round_button_background"
         android:scaleType="centerInside"
-        android:src="@drawable/baseline_button_services" />
+        android:src="@drawable/button_add_services" />
 
 </FrameLayout>

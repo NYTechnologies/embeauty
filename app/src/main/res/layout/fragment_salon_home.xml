@@ -55,7 +55,7 @@
                 android:layout_marginTop="15dp"
                 android:fontFamily="sans-serif"
                 android:text="dia de mês, dia da semana"
-                android:textColor="@android:color/black"
+                android:textColor="#343a40"
                 android:textSize="18sp"
                 android:textStyle="bold" />
 

@@ -8,8 +8,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
+import android.widget.ListView
 import android.widget.TextView
 import com.nytech.embeauty.R
+import com.nytech.embeauty.adapter.SalonServicesAdapter
 import com.nytech.embeauty.repository.SalonRepository
 import com.nytech.embeauty.view.salon.NewServiceActivity
 
@@ -30,6 +32,8 @@ class SalonServicesFragment : Fragment() {
 
     private val salonRepository: SalonRepository = SalonRepository()
 
+    private lateinit var listView: ListView
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -48,9 +52,15 @@ class SalonServicesFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        listView = view.findViewById(R.id.listViewSalonServices)
+
+        listView.divider = null
+
         salonRepository.getServicesForSalon { services ->
             Log.d("onViewCreated", "Services: $services")
             //"Aqui temos acesso aos serviços do salão. Chamar classe de adapter e lançar esses dados numa ListView"
+            listView.adapter = SalonServicesAdapter(requireContext(), services)
         }
 
         // botão para ir para a activity de adicionar um serviço
