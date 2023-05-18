@@ -26,6 +26,10 @@ class SalonRepository {
         const val SALON_COLLECTION = "Salon"
     }
 
+    /* ---------------------------------------------------------------- */
+    /*                  FUNÇÕES BASE DO REPOSITORY                      */
+    /* ---------------------------------------------------------------- */
+
     // Captura referência do banco de dados FireStore
     private val myFirestore = FirebaseFirestore.getInstance()
 
@@ -37,6 +41,10 @@ class SalonRepository {
         myFirestore
             .collection(SALON_COLLECTION)
             .document(getCurrentUserID())
+
+    /* ---------------------------------------------------------------- */
+    /*                  FUNÇÕES DO SALÃO                                */
+    /* ---------------------------------------------------------------- */
 
     // Função para capturar os dados do salão
     fun getSalon(onComplete: (SalonModel) -> Unit) {
@@ -73,7 +81,11 @@ class SalonRepository {
             }
     }
 
-    // função para retornar os serviços do salão que estiver logado no app
+    /* ---------------------------------------------------------------- */
+    /*                  FUNÇÕES DOS SERVIÇOS DO SALÃO                   */
+    /* ---------------------------------------------------------------- */
+
+    // Função para retornar todos os serviços do salão
     fun getServicesForSalon(onComplete: (List<SalonModel.Service>) -> Unit) {
         val salonDocumentReference = getSalonDocumentReference()
 
@@ -89,7 +101,45 @@ class SalonRepository {
             }
     }
 
-    // função para registrar um novo serviço
+    // Função para atualizar um serviço existente
+    fun updateServiceByOldName(oldServiceName: String, newName: String, newPrice: String, onComplete: () -> Unit) {
+        val salonDocumentReference = getSalonDocumentReference()
+
+        salonDocumentReference
+            .get()
+            .addOnSuccessListener { documentSnapshot ->
+                val salon = documentSnapshot.toObject(SalonModel::class.java)
+
+                if (salon != null) {
+                    // Faz uma cópia dos serviços existentes para poder atualizar
+                    val updatedServices = salon.services.toMutableList()
+
+                    // Encontra o serviço a ser atualizado pelo nome antigo
+                    val service = updatedServices.find { it.name == oldServiceName }
+                    if (service != null) {
+                        // Atualiza as informações do serviço
+                        val updatedService = service.copy(name = newName, price = newPrice)
+                        val index = updatedServices.indexOf(service)
+                        updatedServices[index] = updatedService
+
+                        salon.services = updatedServices
+
+                        salonDocumentReference
+                            .set(salon)
+                            .addOnSuccessListener {
+                                // Caso tenha sucesso na atualização do serviço
+                                onComplete()
+                            }
+                            .addOnFailureListener {
+                                // Em caso de falha na atualização do serviço
+                                TODO("Implementar alguma mensagem quando ocorrer erro na atualização")
+                            }
+                    }
+                }
+            }
+    }
+
+    // Função para registrar um novo serviço
     fun registerNewService(activity: Activity, service: SalonModel.Service) {
         val salonDocumentReference = getSalonDocumentReference()
 
@@ -117,7 +167,11 @@ class SalonRepository {
             }
     }
 
-    // função para retornar os agendamentos do salão que estiver logado no app
+    /* ---------------------------------------------------------------- */
+    /*                  FUNÇÕES DOS AGENDAMENTOS DO SALÃO               */
+    /* ---------------------------------------------------------------- */
+
+    // função para retornar os agendamentos do salão
     fun getAppointmentsOfTheDayForSalon(onComplete: (List<SalonModel.Appointment>) -> Unit) {
         val salonDocumentReference = getSalonDocumentReference()
 
