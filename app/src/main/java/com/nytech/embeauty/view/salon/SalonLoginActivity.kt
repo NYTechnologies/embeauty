@@ -28,6 +28,15 @@ class SalonLoginActivity : AppCompatActivity() {
 
         setContentView(binding.root)
 
+        // Verificar se o usuário já está autenticado
+        if (firebase.currentUser != null) {
+            // Usuário já autenticado, direcionar para a SalonMainActivity
+            val intent = Intent(this, SalonMainActivity::class.java)
+            startActivity(intent)
+            finish() // Finalizar a atividade atual para que o usuário não possa voltar à tela de login pressionando o botão "Voltar"
+            return // Encerrar o método para evitar que o código abaixo seja executado
+        }
+
         // botão para tela de cadastro de salão
         binding.textSignupSalon.setOnClickListener {
             val intent = Intent(this@SalonLoginActivity, SalonRegisterActivity::class.java)

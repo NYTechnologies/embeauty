@@ -31,7 +31,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
             android:fontFamily="sans-serif"
-            android:text="cadastre ou edite os serviços oferecidos pela sua empresa"
+            android:text="gerencie os serviços oferecidos pela sua empresa"
             android:textColor="@android:color/black"
             android:textSize="18sp" />
 

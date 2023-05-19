@@ -167,6 +167,39 @@ class SalonRepository {
             }
     }
 
+    // Função para excluir um serviço pelo nome
+    fun deleteService(serviceName: String, onComplete: () -> Unit) {
+        val salonDocumentReference = getSalonDocumentReference()
+
+        salonDocumentReference
+            .get()
+            .addOnSuccessListener { documentSnapshot ->
+                val salon = documentSnapshot.toObject(SalonModel::class.java)
+
+                if (salon != null) {
+                    val updatedServices = salon.services.toMutableList()
+
+                    // Encontra o serviço a ser excluído pelo nome
+                    val service = updatedServices.find { it.name == serviceName }
+                    if (service != null) {
+                        updatedServices.remove(service)
+                        salon.services = updatedServices
+
+                        salonDocumentReference
+                            .set(salon)
+                            .addOnSuccessListener {
+                                // Caso tenha sucesso na exclusão do serviço
+                                onComplete()
+                            }
+                            .addOnFailureListener {
+                                // Em caso de falha na exclusão do serviço
+                                TODO("Implementar alguma mensagem quando ocorrer erro na exclusão")
+                            }
+                    }
+                }
+            }
+    }
+
     /* ---------------------------------------------------------------- */
     /*                  FUNÇÕES DOS AGENDAMENTOS DO SALÃO               */
     /* ---------------------------------------------------------------- */

@@ -10,10 +10,15 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.ImageButton
 import android.widget.TextView
+import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
+import androidx.core.content.ContextCompat.startActivity
 import com.nytech.embeauty.R
 import com.nytech.embeauty.UpdateServiceActivity
 import com.nytech.embeauty.constants.IntentConstants
 import com.nytech.embeauty.model.SalonModel
+import com.nytech.embeauty.repository.SalonRepository
+import com.nytech.embeauty.view.salon.SalonMainActivity
 
 /**
  * Adapter para receber a lista de Services do backend e renderizar na tela do SalonServicesFragment
@@ -50,7 +55,40 @@ class SalonServicesAdapter(
             context.startActivity(intent)
         }
 
+        // Lógica do botão de deletar o serviço
+        val deleteServiceButton = view.findViewById<ImageButton>(R.id.salonServiceDeleteButton)
+        deleteServiceButton.setOnClickListener {
+            val serviceNameToDelete = serviceName.text.toString()
+            showDeleteConfirmationDialog(serviceNameToDelete)
+        }
+
         return view
+    }
+
+    private fun showDeleteConfirmationDialog(serviceName: String) {
+
+        // Lógica do Alert Dialog de confirmação da exclusão do serviço
+        val builder = AlertDialog.Builder(context)
+        builder
+            .setTitle("Confirmar exclusão")
+            .setMessage("Tem certeza de que deseja excluir o serviço '$serviceName'?")
+            .setPositiveButton("Sim") { _, _ ->
+                val salonRepository = SalonRepository()
+                salonRepository.deleteService(serviceName) {
+                    // Lógica a ser executada quando a exclusão for concluída com sucesso
+                    Toast.makeText(context, "Serviço excluído com sucesso", Toast.LENGTH_SHORT).show()
+
+                    // se o cadastro do novo serviço for completado com sucesso, voltar a SalonMainActivity
+                    val intent = Intent(context, SalonMainActivity::class.java)
+
+                    // Envia para o SalonMainActivity dizendo para ir para o Fragment de Serviços
+                    intent.putExtra(IntentConstants.TARGET_FRAGMENT, IntentConstants.SALON_SERVICES_FRAGMENT)
+                    context.startActivity(intent)
+                }
+            }
+            .setNegativeButton("Não", null)
+            .create()
+            .show()
     }
 
 }
