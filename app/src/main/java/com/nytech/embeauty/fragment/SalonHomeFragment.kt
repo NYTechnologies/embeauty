@@ -6,8 +6,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ListView
 import android.widget.TextView
 import com.nytech.embeauty.R
+import com.nytech.embeauty.adapter.SalonHomeAdapter
 import com.nytech.embeauty.databinding.FragmentSalonHomeBinding
 import com.nytech.embeauty.repository.SalonRepository
 import java.time.LocalDateTime
@@ -30,6 +32,7 @@ class SalonHomeFragment : Fragment() {
     private var param2: String? = null
 
     private val salonRepository: SalonRepository = SalonRepository()
+    private lateinit var listView: ListView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -45,6 +48,8 @@ class SalonHomeFragment : Fragment() {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_salon_home, container, false)
 
+        listView = view.findViewById(R.id.listViewSalonHome)
+
         // Formata a data de hoje em '<dia> de <mês>, <dia da semana>'
         val dataAtual = LocalDateTime.now()
         // Formato desejado da data
@@ -56,14 +61,15 @@ class SalonHomeFragment : Fragment() {
         val dataText = view.findViewById<TextView>(R.id.diaDeHojeTextView)
         dataText.text = dataFormatada
 
-        //resgata o nome do usuário
+        //resgata o nome do usuário e seus agendamentos do dia
         salonRepository.getSalon { salon ->
             Log.d("SalonHomeFragment", "Cliente: $salon")
             val welcomeText = view.findViewById<TextView>(R.id.welcomeTextView)
             welcomeText.text = "bem-vindo (a), ${salon.name},"
 
             Log.d("SalonHomeFragment", "Agendamentos de hoje: ${salon.todayAppointments()}")
-            // "Aqui temos acesso aos agendamentos do salão. Chamar classe de adapter e lançar esses dados numa ListView"
+            // Passamos para o adapter os agendamentos de hoje
+            listView.adapter = SalonHomeAdapter(requireContext(), salon.todayAppointments())
         }
         return view
     }

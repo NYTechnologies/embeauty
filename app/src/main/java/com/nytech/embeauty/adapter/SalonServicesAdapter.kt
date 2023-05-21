@@ -28,7 +28,7 @@ class SalonServicesAdapter(
    private val salonServices: List<SalonModel.Service>
 ) : ArrayAdapter<SalonModel.Service>(context, R.layout.services_list_item, salonServices) {
 
-    @SuppressLint("ViewHolder")
+    @SuppressLint("ViewHolder", "InflateParams")
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
 
         val inflater = LayoutInflater.from(context)

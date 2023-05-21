@@ -39,7 +39,6 @@
             android:id="@+id/listViewSalonServices"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:elevation="@dimen/cardview_compat_inset_shadow"
             tools:listitem="@layout/services_list_item"
             android:layout_marginTop="20dp"/>
 

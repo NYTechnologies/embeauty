@@ -1,7 +1,10 @@
 package com.nytech.embeauty.model
 
+import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
+import java.util.Calendar
+import java.util.Locale
 
 // Objeto/modelo a ser enviado para o banco de dados "Salon" no FireBase Store
 data class SalonModel(
@@ -23,11 +26,29 @@ data class SalonModel(
         var clientPhone: String = "",
         var date: String = "",
         var startAt: String = "",
-        var endAt: String = "",
         var duration: String = "",
         var serviceName: String = ""
-    )
+    ) {
+        var endAt: String = ""
 
+        // Inicializa o objeto calculando o endAt com base no startAt e no duration
+        init {
+            val startAtTime = SimpleDateFormat("HH:mm", Locale.getDefault()).parse(startAt)
+            val durationTime = SimpleDateFormat("HH:mm", Locale.getDefault()).parse(duration)
+
+            val calendar = Calendar.getInstance().apply { time = startAtTime!! }
+
+            calendar.add(Calendar.HOUR_OF_DAY, durationTime!!.hours)
+            calendar.add(Calendar.MINUTE, durationTime.minutes)
+
+            val endAtTime = calendar.time
+
+            val formatter = SimpleDateFormat("HH:mm", Locale.getDefault())
+            endAt = formatter.format(endAtTime)
+        }
+    }
+
+    // Função que retorna os agendamentos de hoje
     fun todayAppointments(): List<Appointment> = appointments.filter { it.date == getCurrentDate() }
 }
 
@@ -51,8 +72,15 @@ private fun generateGenericServices() = listOf(
 )
 
 private fun generateGenericAppointments() = listOf(
-    SalonModel.Appointment(clientName = "Yan", date = getCurrentDate()),
-    SalonModel.Appointment(clientName = "Nat", date = getCurrentDate()),
+    SalonModel.Appointment(clientName = "Yan", startAt = "09:00", duration = "00:50", serviceName = "Unha da Mão", date = getCurrentDate()),
+    SalonModel.Appointment(clientName = "Nat", startAt = "10:00", duration = "00:50", serviceName = "Unha da Mão", date = getCurrentDate()),
+    SalonModel.Appointment(clientName = "Nícolas", startAt = "11:00", duration = "00:50", serviceName = "Unha da Mão", date = getCurrentDate()),
+    SalonModel.Appointment(clientName = "Silvana Alves", startAt = "12:00", duration = "00:50", serviceName = "Unha da Mão", date = getCurrentDate()),
+    SalonModel.Appointment(clientName = "Janete Maciel", startAt = "14:00", duration = "00:50", serviceName = "Unha da Mão", date = getCurrentDate()),
+    SalonModel.Appointment(clientName = "Luizinha Maciel", startAt = "15:00", duration = "00:50", serviceName = "Unha da Mão", date = getCurrentDate()),
+    SalonModel.Appointment(clientName = "Gabriela Gomes Maciel", startAt = "16:00", duration = "00:50", serviceName = "Unha da Mão", date = getCurrentDate()),
+    SalonModel.Appointment(clientName = "Yago", startAt = "17:00", duration = "00:50", serviceName = "Unha da Mão", date = getCurrentDate()),
+    SalonModel.Appointment(clientName = "Manoel da Silva", startAt = "18:00", duration = "00:50", serviceName = "Unha da Mão", date = getCurrentDate()),
     SalonModel.Appointment(clientName = "Nada a ver", date = "2030-05-20")
 )
 
