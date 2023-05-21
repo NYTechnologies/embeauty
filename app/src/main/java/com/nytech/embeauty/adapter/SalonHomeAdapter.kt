@@ -46,11 +46,11 @@ class SalonHomeAdapter(
         val endAtCalendar = Calendar.getInstance().apply { time = endAtTime!! }
 
         when {
-            currentTime >= endAtCalendar -> {
+            currentTime.time >= endAtCalendar.time -> {
                 // Horário já passou, definir cor cinza
                 barVertical.setBackgroundColor(ContextCompat.getColor(context, R.color.gray_dark))
             }
-            currentTime >= startAtCalendar && currentTime < endAtCalendar -> {
+            currentTime.time >= startAtCalendar.time && currentTime.time < endAtCalendar.time -> {
                 // Horário está entre startAt e endAt, definir cor amarela
                 barVertical.setBackgroundColor(ContextCompat.getColor(context, R.color.safety_yellow))
             }
