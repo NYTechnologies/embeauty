@@ -1,9 +1,9 @@
 package com.nytech.embeauty.model
 
 data class SalonAppointments(
-    var appointment: List<SalonAppointment> = emptyList()
+    var appointment: List<Appointment> = emptyList()
 ) {
-    data class SalonAppointment(
+    data class Appointment(
         var clientName: String = "",
         var clientPhone: String = "",
         var date: String = "",

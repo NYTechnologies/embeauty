@@ -28,6 +28,10 @@ class SalonProfileRepository {
             .collection(SALON_PROFILE_COLLECTION)
             .document(firebaseAuthRepository.getCurrentUserID())
 
+    /* ---------------------------------------------------------------- */
+    /*                Métodos do CRUD para o SalonProfile               */
+    /* ---------------------------------------------------------------- */
+
     // Função para buscar os dados de Profile do Salão
     fun getSalonProfile(onComplete: (SalonProfile) -> Unit) {
         val salonProfileDocumentReference = getSalonProfileDocumentReference()
