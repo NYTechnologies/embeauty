@@ -10,8 +10,6 @@ import android.widget.ListView
 import android.widget.TextView
 import com.nytech.embeauty.R
 import com.nytech.embeauty.adapter.SalonHomeAdapter
-import com.nytech.embeauty.databinding.FragmentSalonHomeBinding
-import com.nytech.embeauty.repository.SalonRepository
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.*

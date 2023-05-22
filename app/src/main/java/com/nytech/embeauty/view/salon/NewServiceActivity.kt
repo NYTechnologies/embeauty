@@ -8,7 +8,6 @@ import com.nytech.embeauty.constants.IntentConstants
 import com.nytech.embeauty.constants.ToastTextConstants
 import com.nytech.embeauty.databinding.ActivityNewServiceBinding
 import com.nytech.embeauty.model.SalonModel
-import com.nytech.embeauty.repository.SalonRepository
 
 class NewServiceActivity : AppCompatActivity() {
 

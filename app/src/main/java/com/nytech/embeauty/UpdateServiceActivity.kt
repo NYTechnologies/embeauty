@@ -3,11 +3,8 @@ package com.nytech.embeauty
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.text.Editable
-import android.util.Log
 import com.nytech.embeauty.constants.IntentConstants
 import com.nytech.embeauty.databinding.ActivityUpdateServiceBinding
-import com.nytech.embeauty.repository.SalonRepository
 import com.nytech.embeauty.view.salon.SalonMainActivity
 
 class UpdateServiceActivity : AppCompatActivity() {

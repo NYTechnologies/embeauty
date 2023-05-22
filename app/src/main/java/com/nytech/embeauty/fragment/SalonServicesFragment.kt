@@ -11,7 +11,6 @@ import android.widget.ImageButton
 import android.widget.ListView
 import com.nytech.embeauty.R
 import com.nytech.embeauty.adapter.SalonServicesAdapter
-import com.nytech.embeauty.repository.SalonRepository
 import com.nytech.embeauty.view.salon.NewServiceActivity
 
 // TODO: Rename parameter arguments, choose names that match

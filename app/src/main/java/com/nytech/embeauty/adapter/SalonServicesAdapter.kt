@@ -12,12 +12,10 @@ import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
-import androidx.core.content.ContextCompat.startActivity
 import com.nytech.embeauty.R
 import com.nytech.embeauty.UpdateServiceActivity
 import com.nytech.embeauty.constants.IntentConstants
 import com.nytech.embeauty.model.SalonModel
-import com.nytech.embeauty.repository.SalonRepository
 import com.nytech.embeauty.view.salon.SalonMainActivity
 
 /**

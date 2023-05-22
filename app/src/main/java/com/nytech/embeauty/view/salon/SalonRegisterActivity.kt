@@ -12,7 +12,6 @@ import com.nytech.embeauty.constants.ToastTextConstants.POR_FAVOR_INSIRA_SEU_EMA
 import com.nytech.embeauty.constants.ToastTextConstants.POR_FAVOR_INSIRA_SUA_SENHA
 import com.nytech.embeauty.databinding.ActivitySalonRegisterBinding
 import com.nytech.embeauty.model.SalonModel
-import com.nytech.embeauty.repository.SalonRepository
 
 /**
  * Tela de Cadastro para salão
