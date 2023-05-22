@@ -9,15 +9,15 @@ import android.widget.ArrayAdapter
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import com.nytech.embeauty.R
-import com.nytech.embeauty.model.SalonModel
+import com.nytech.embeauty.model.SalonAppointments
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
 
 class SalonHomeAdapter(
     private val context: Context,
-    private val salonAppointments: List<SalonModel.Appointment>
-) : ArrayAdapter<SalonModel.Appointment>(context, R.layout.home_list_appointments, salonAppointments) {
+    private val salonAppointments: List<SalonAppointments.Appointment>
+) : ArrayAdapter<SalonAppointments.Appointment>(context, R.layout.home_list_appointments, salonAppointments) {
 
     @SuppressLint("ViewHolder", "InflateParams")
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {

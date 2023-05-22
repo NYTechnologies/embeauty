@@ -7,12 +7,13 @@ import android.widget.Toast
 import com.nytech.embeauty.constants.IntentConstants
 import com.nytech.embeauty.constants.ToastTextConstants
 import com.nytech.embeauty.databinding.ActivityNewServiceBinding
-import com.nytech.embeauty.model.SalonModel
+import com.nytech.embeauty.model.SalonServices
+import com.nytech.embeauty.repository.SalonServicesRepository
 
 class NewServiceActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityNewServiceBinding
-    private val salonRepository: SalonRepository = SalonRepository()
+    private val salonServicesRepository: SalonServicesRepository = SalonServicesRepository()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,8 +25,8 @@ class NewServiceActivity : AppCompatActivity() {
 
         // pega a lista de services via repository e guarda o NOME de cada service numa nova lista servicesNameList
         val servicesNameList: MutableList<String> = mutableListOf()
-        salonRepository.getServicesForSalon { services ->
-            services.map { servicesNameList.add(it.name) }
+        salonServicesRepository.getSalonServices { services ->
+            services.services.map { servicesNameList.add(it.name) }
         }
 
         // botão de adicionar novo serviço
@@ -65,12 +66,12 @@ class NewServiceActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-            val newService = SalonModel.Service(
+            val newService = SalonServices.Service(
                 name = serviceName,
                 price = servicePrice
             )
 
-            salonRepository.registerNewService(this@NewServiceActivity, newService)
+            salonServicesRepository.registerNewSalonService(this@NewServiceActivity, newService)
 
         }
     }

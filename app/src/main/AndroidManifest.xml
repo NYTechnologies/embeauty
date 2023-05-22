@@ -12,7 +12,7 @@
         android:theme="@style/Theme.Embeauty"
         tools:targetApi="31">
         <activity
-            android:name=".UpdateServiceActivity"
+            android:name=".view.salon.UpdateServiceActivity"
             android:exported="false" />
         <activity
             android:name=".view.salon.NewServiceActivity"

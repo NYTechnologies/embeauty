@@ -14,4 +14,6 @@ class FirebaseAuthRepository {
     // Captura o User ID do usuário do app que está logado na nossa aplicação
     fun getCurrentUserID(): String = myFirebaseAuth().currentUser!!.uid
 
+    fun signOut() = myFirebaseAuth().signOut()
+
 }

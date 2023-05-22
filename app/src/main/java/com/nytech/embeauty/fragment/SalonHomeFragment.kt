@@ -10,6 +10,9 @@ import android.widget.ListView
 import android.widget.TextView
 import com.nytech.embeauty.R
 import com.nytech.embeauty.adapter.SalonHomeAdapter
+import com.nytech.embeauty.repository.SalonAppointmentsRepository
+import com.nytech.embeauty.repository.SalonProfileRepository
+import com.nytech.embeauty.utils.getCurrentDate
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.*
@@ -29,7 +32,10 @@ class SalonHomeFragment : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
 
-    private val salonRepository: SalonRepository = SalonRepository()
+    // Instancia as classes de Repository do Profile e do Agendamento para usar na Home
+    private val salonProfileRepository: SalonProfileRepository = SalonProfileRepository()
+    private val salonAppointmentsRepository: SalonAppointmentsRepository = SalonAppointmentsRepository()
+
     private lateinit var listView: ListView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,28 +54,37 @@ class SalonHomeFragment : Fragment() {
 
         listView = view.findViewById(R.id.listViewSalonHome)
 
-        // Formata a data de hoje em '<dia> de <mês>, <dia da semana>'
-        val dataAtual = LocalDateTime.now()
-        // Formato desejado da data
-        val formatoData = DateTimeFormatter.ofPattern("EEEE, d 'de' MMMM", Locale("pt", "BR"))
-        // String com a data formatada
-        val dataFormatada = dataAtual.format(formatoData)
+        // Data no formato usado na Home
+        val homeDate = getHomeDateFormat()
 
-        //resgata a data do dia
         val dataText = view.findViewById<TextView>(R.id.diaDeHojeTextView)
-        dataText.text = dataFormatada
+        dataText.text = homeDate
 
-        //resgata o nome do usuário e seus agendamentos do dia
-        salonRepository.getSalon { salon ->
-            Log.d("SalonHomeFragment", "Cliente: $salon")
+        // Busca via SalonProfileRepository os dados de Profile do Salão, para usar o Nome do Salão na frase de 'bem-vindo(a)'
+        salonProfileRepository.getSalonProfile { salonProfile ->
+            Log.d("SalonHomeFragment", "Cliente: $salonProfile")
             val welcomeText = view.findViewById<TextView>(R.id.welcomeTextView)
-            welcomeText.text = "bem-vindo (a), ${salon.name},"
-
-            Log.d("SalonHomeFragment", "Agendamentos de hoje: ${salon.todayAppointments()}")
-            // Passamos para o adapter os agendamentos de hoje
-            listView.adapter = SalonHomeAdapter(requireContext(), salon.todayAppointments())
+            welcomeText.text = "bem-vindo (a), ${salonProfile.name},"
         }
+
+        // Busca via SalonAppointmentsRepository os agendamentos de HOJE do Salão
+        salonAppointmentsRepository.getSalonAppointmentsByDate(getCurrentDate()) { salonAppointments ->
+            Log.d("SalonHomeFragment", "Agendamentos de hoje: ${salonAppointments.appointments}")
+            // Passamos para o adapter (SalonHomeAdapter) os agendamentos de hoje para ele serializar e disponibilizar a Interface (Tela)
+            listView.adapter = SalonHomeAdapter(requireContext(), salonAppointments.appointments)
+        }
+
         return view
+    }
+
+    // Função para resgatar a data do dia o formato necessário da Home
+    private fun getHomeDateFormat(): String {
+        // Formata a data de hoje em '<dia> de <mês>, <dia da semana>'
+        val todayDate = LocalDateTime.now()
+        // Formato desejado da data
+        val formatDate = DateTimeFormatter.ofPattern("EEEE, d 'de' MMMM", Locale("pt", "BR"))
+        // String com a data formatada
+        return todayDate.format(formatDate)
     }
 
     companion object {

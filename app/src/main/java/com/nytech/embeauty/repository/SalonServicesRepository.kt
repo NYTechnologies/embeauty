@@ -60,6 +60,14 @@ class SalonServicesRepository {
             }
     }
 
+    // Create: Função para cadastrar serviços assim que a conta do Salão for criada
+    fun registerFirstSalonServices(salonServices: SalonServices) {
+        val salonServicesDocumentReference = getSalonServicesDocumentReference()
+
+        salonServicesDocumentReference
+            .set(salonServices)
+    }
+
     // Read: Função para buscar todos os Serviços do salão
     fun getSalonServices(onComplete: (SalonServices) -> Unit) {
         val salonServicesDocumentReference = getSalonServicesDocumentReference()
@@ -142,7 +150,7 @@ class SalonServicesRepository {
                             .addOnSuccessListener {
                                 // Caso tenha sucesso na exclusão do serviço
                                 onComplete()
-                            }.addOnSuccessListener {
+                            }.addOnFailureListener {
                                 // Em caso de falha na exclusão do serviço
                                 TODO("Implementar alguma mensagem quando ocorrer erro na exclusão")
                             }

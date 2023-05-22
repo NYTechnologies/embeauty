@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import com.google.firebase.auth.FirebaseAuth
 import com.nytech.embeauty.R
+import com.nytech.embeauty.repository.FirebaseAuthRepository
 import com.nytech.embeauty.view.salon.SalonLoginActivity
 
 // TODO: Rename parameter arguments, choose names that match
@@ -34,7 +35,7 @@ class SalonSettingsFragment : Fragment() {
         }
     }
 
-    private lateinit var auth: FirebaseAuth
+    private val firebaseAuthRepository = FirebaseAuthRepository()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -42,8 +43,6 @@ class SalonSettingsFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_salon_settings, container, false)
-
-        auth = FirebaseAuth.getInstance()
 
         val logoutButton = view.findViewById<Button>(R.id.btn_logout)
         logoutButton.setOnClickListener {
@@ -54,7 +53,7 @@ class SalonSettingsFragment : Fragment() {
     }
 
     private fun logout() {
-        auth.signOut()
+        firebaseAuthRepository.signOut()
 
         // Redirecionar para a tela de login
         val intent = Intent(requireContext(), SalonLoginActivity::class.java)

@@ -11,6 +11,7 @@ import android.widget.ImageButton
 import android.widget.ListView
 import com.nytech.embeauty.R
 import com.nytech.embeauty.adapter.SalonServicesAdapter
+import com.nytech.embeauty.repository.SalonServicesRepository
 import com.nytech.embeauty.view.salon.NewServiceActivity
 
 // TODO: Rename parameter arguments, choose names that match
@@ -28,7 +29,7 @@ class SalonServicesFragment : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
 
-    private val salonRepository: SalonRepository = SalonRepository()
+    private val salonServicesRepository: SalonServicesRepository = SalonServicesRepository()
 
     private lateinit var listView: ListView
 
@@ -55,10 +56,10 @@ class SalonServicesFragment : Fragment() {
 
         listView.divider = null
 
-        salonRepository.getServicesForSalon { services ->
+        salonServicesRepository.getSalonServices { services ->
             Log.d("onViewCreated", "Services: $services")
-            //"Aqui temos acesso aos serviços do salão. Chamar classe de adapter e lançar esses dados numa ListView"
-            listView.adapter = SalonServicesAdapter(requireContext(), services)
+            // Aqui temos acesso aos serviços do salão. Chamar classe de adapter (SalonServicesAdapter) e lançar esses dados numa ListView
+            listView.adapter = SalonServicesAdapter(requireActivity(), requireContext(), services.services)
         }
 
         // botão para ir para a activity de adicionar um serviço

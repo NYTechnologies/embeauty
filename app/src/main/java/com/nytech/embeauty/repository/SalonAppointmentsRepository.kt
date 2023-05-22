@@ -45,4 +45,12 @@ class SalonAppointmentsRepository {
                 onComplete(SalonAppointments())
             }
     }
+
+    // Create: Função para cadastrar Agendamentos assim que a conta do Salão for criada
+    fun registerFirstSalonAppointments(date: String, salonAppointments: SalonAppointments) {
+        val salonAppointmentsDocumentReference = getSalonAppointmentsDocumentReferenceByDate(date)
+
+        salonAppointmentsDocumentReference
+            .set(salonAppointments)
+    }
 }

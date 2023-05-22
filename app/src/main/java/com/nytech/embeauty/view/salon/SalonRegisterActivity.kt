@@ -11,7 +11,13 @@ import com.nytech.embeauty.constants.ToastTextConstants.POR_FAVOR_INSIRA_O_NUMER
 import com.nytech.embeauty.constants.ToastTextConstants.POR_FAVOR_INSIRA_SEU_EMAIL
 import com.nytech.embeauty.constants.ToastTextConstants.POR_FAVOR_INSIRA_SUA_SENHA
 import com.nytech.embeauty.databinding.ActivitySalonRegisterBinding
-import com.nytech.embeauty.model.SalonModel
+import com.nytech.embeauty.model.SalonProfile
+import com.nytech.embeauty.repository.SalonAppointmentsRepository
+import com.nytech.embeauty.repository.SalonProfileRepository
+import com.nytech.embeauty.repository.SalonServicesRepository
+import com.nytech.embeauty.utils.generateDummySalonAppointments
+import com.nytech.embeauty.utils.generateDummySalonServices
+import com.nytech.embeauty.utils.getCurrentDate
 
 /**
  * Tela de Cadastro para salão
@@ -20,14 +26,18 @@ class SalonRegisterActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivitySalonRegisterBinding
     private lateinit var firebaseAuth: FirebaseAuth
-    private lateinit var salonRepository: SalonRepository
+    private lateinit var salonProfileRepository: SalonProfileRepository
+    private lateinit var salonServicesRepository: SalonServicesRepository
+    private lateinit var salonAppointmentsRepository: SalonAppointmentsRepository
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         binding = ActivitySalonRegisterBinding.inflate(layoutInflater)
         firebaseAuth = FirebaseAuth.getInstance()
-        salonRepository = SalonRepository()
+        salonProfileRepository = SalonProfileRepository()
+        salonServicesRepository = SalonServicesRepository()
+        salonAppointmentsRepository = SalonAppointmentsRepository()
 
         supportActionBar?.hide()
 
@@ -91,20 +101,24 @@ class SalonRegisterActivity : AppCompatActivity() {
                 .addOnCompleteListener { task ->
                     if (task.isSuccessful) {
 
-                        // captura numa variável o uid gerado pelo FirebaseAuth
+                        // Captura numa variável o uid gerado pelo FirebaseAuth
                         val uid = firebaseAuth.currentUser?.uid
 
-                        // Salvar no Firestore o salão
-                        // Instancia um SalonModel
-                        val salonModel = SalonModel(
+                        // Salva no Firestore o SalonProfile
+                        // Instancia um SalonProfile
+                        val salonProfile = SalonProfile(
                             firebaseUID = uid!!,
                             name = salonName,
                             phone = salonPhone,
                             email = salonEmail
                         )
 
-                        // Grava o SalonModel no DB Salon do FireStore usando o SalonRepository
-                        salonRepository.registerSalon(this@SalonRegisterActivity, salonModel)
+                        // Salva dois Serviços Base (Falsos) no DB SalonServices do FiresStore usando o SalonServicesRepository
+                        salonServicesRepository.registerFirstSalonServices(generateDummySalonServices())
+                        // Salva Vários Agendamentos do dia de criação da conta para testarmos a Home
+                        salonAppointmentsRepository.registerFirstSalonAppointments(getCurrentDate(), generateDummySalonAppointments())
+                        // Salva o SalonProfile no DB SalonProfile do FireStore usando o SalonProfileRepository
+                        salonProfileRepository.registerNewSalonProfile(this@SalonRegisterActivity, salonProfile)
                     } else {
                         //se o cadastro não for completado com sucesso
                         Toast.makeText(
