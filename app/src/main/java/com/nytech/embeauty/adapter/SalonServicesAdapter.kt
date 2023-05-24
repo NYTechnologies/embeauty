@@ -1,7 +1,6 @@
 package com.nytech.embeauty.adapter
 
 import android.annotation.SuppressLint
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.util.Log
@@ -19,7 +18,6 @@ import com.nytech.embeauty.view.salon.UpdateServiceActivity
 import com.nytech.embeauty.constants.IntentConstants
 import com.nytech.embeauty.model.SalonServices
 import com.nytech.embeauty.repository.SalonServicesRepository
-import com.nytech.embeauty.view.salon.SalonMainActivity
 
 /**
  * Adapter para receber a lista de Services do backend e renderizar na tela do SalonServicesFragment
@@ -78,25 +76,13 @@ class SalonServicesAdapter(
                 val salonServicesRepository = SalonServicesRepository()
                 salonServicesRepository.deleteSalonService(serviceName) {
                     // Lógica a ser executada quando a exclusão for concluída com sucesso
-                    //Toast.makeText(context, "Serviço excluído com sucesso", Toast.LENGTH_SHORT).show()
-
-                    // se a exclusão serviço for completado com sucesso, voltar a SalonMainActivity
-                    val intent = Intent(context, SalonMainActivity::class.java)
-
-                    // Envia para o SalonMainActivity dizendo para ir para o Fragment de Serviços
-                    intent.putExtra(
-                        IntentConstants.TARGET_FRAGMENT,
-                        IntentConstants.SALON_SERVICES_FRAGMENT
-                    )
-                    fragmentActivity.finish()
-                    context.startActivity(intent)
+                    Toast.makeText(context, "Serviço excluído com sucesso", Toast.LENGTH_SHORT).show()
                 }
             }
             .setNegativeButton("Não", null)
             .create()
             .show()
     }
-
 }
 
 

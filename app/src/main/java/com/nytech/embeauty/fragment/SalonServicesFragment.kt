@@ -70,6 +70,15 @@ class SalonServicesFragment : Fragment() {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        salonServicesRepository.getSalonServices { services ->
+            Log.d("onResume", "Services: $services")
+            // Aqui temos acesso aos serviços do salão. Chamar classe de adapter (SalonServicesAdapter) e lançar esses dados numa ListView
+            listView.adapter = SalonServicesAdapter(requireActivity(), requireContext(), services.services)
+        }
+    }
+
     companion object {
         /**
          * Use this factory method to create a new instance of

@@ -2,28 +2,23 @@ package com.nytech.embeauty.view.salon
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import androidx.fragment.app.FragmentManager
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.NavigationUI.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.nytech.embeauty.R
-import com.nytech.embeauty.constants.IntentConstants
-import com.nytech.embeauty.fragment.SalonHomeFragment
-import com.nytech.embeauty.fragment.SalonServicesFragment
 
 class SalonMainActivity : AppCompatActivity() {
 
     private lateinit var navController: NavController
+    private var currentFragmentId: Int = -1 // Keep track of the current fragment ID
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         supportActionBar?.hide()
 
         setContentView(R.layout.activity_salon_main)
-
-        // captura o Fragmento a ser iniciado
-        val targetFragment = intent.getStringExtra(IntentConstants.TARGET_FRAGMENT)
 
         // captura o fragmento salon_main_container pelo id
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.salon_main_container) as NavHostFragment
@@ -34,11 +29,33 @@ class SalonMainActivity : AppCompatActivity() {
 
         setupWithNavController(salonBottonNavBar, navController)
 
-        // Verifique se o argumento extra "targetFragment" e navega para o Fragment Indicado
-        when (targetFragment) {
-            IntentConstants.SALON_SERVICES_FRAGMENT -> {
+        currentFragmentId = savedInstanceState?.getInt(CURRENT_FRAGMENT_ID) ?: -1
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putInt(CURRENT_FRAGMENT_ID, currentFragmentId)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        when (currentFragmentId) {
+            R.id.salonHomeFragment -> {
+                navController.navigate(R.id.salonHomeFragment)
+            }
+            R.id.salonAppointmentFragment -> {
+                navController.navigate(R.id.salonAppointmentFragment)
+            }
+            R.id.salonServicesFragment -> {
                 navController.navigate(R.id.salonServicesFragment)
             }
+            R.id.salonSettingsFragment -> {
+                navController.navigate(R.id.salonSettingsFragment)
+            }
         }
+    }
+
+    companion object {
+        private const val CURRENT_FRAGMENT_ID = "current_fragment_id"
     }
 }

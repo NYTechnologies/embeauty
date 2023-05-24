@@ -1,6 +1,5 @@
 package com.nytech.embeauty.view.salon
 
-import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.nytech.embeauty.constants.IntentConstants
@@ -32,12 +31,6 @@ class UpdateServiceActivity : AppCompatActivity() {
 
             salonServicesRepository
                 .updateSalonServiceByOldName(oldServiceName, newServiceName, newServicePrice) {
-                    // se o cadastro do novo serviço for completado com sucesso, voltar a SalonMainActivity
-                    val intent = Intent(this@UpdateServiceActivity, SalonMainActivity::class.java)
-
-                    // Envia para o SalonMainActivity dizendo para ir para o Fragment de Serviços
-                    intent.putExtra(IntentConstants.TARGET_FRAGMENT, IntentConstants.SALON_SERVICES_FRAGMENT)
-                    startActivity(intent)
                     finish()
             }
         }

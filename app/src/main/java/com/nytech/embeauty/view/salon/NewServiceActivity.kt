@@ -72,17 +72,10 @@ class NewServiceActivity : AppCompatActivity() {
             )
 
             salonServicesRepository.registerNewSalonService(this@NewServiceActivity, newService)
-
         }
     }
 
     fun registerNewServiceSuccess() {
-        // se o cadastro do novo serviço for completado com sucesso, voltar a SalonMainActivity
-        val intent = Intent(this@NewServiceActivity, SalonMainActivity::class.java)
-
-        // Envia para o SalonMainActivity dizendo fragment queremos ir
-        intent.putExtra(IntentConstants.TARGET_FRAGMENT, IntentConstants.SALON_SERVICES_FRAGMENT)
-        startActivity(intent)
         finish()
     }
 }
