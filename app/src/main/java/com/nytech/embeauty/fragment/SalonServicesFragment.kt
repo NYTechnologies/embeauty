@@ -24,7 +24,7 @@ private const val ARG_PARAM2 = "param2"
  * Use the [SalonServicesFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class SalonServicesFragment : Fragment() {
+class SalonServicesFragment : Fragment(), ServiceDeletedListener {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
@@ -59,7 +59,7 @@ class SalonServicesFragment : Fragment() {
         salonServicesRepository.getSalonServices { services ->
             Log.d("onViewCreated", "Services: $services")
             // Aqui temos acesso aos serviços do salão. Chamar classe de adapter (SalonServicesAdapter) e lançar esses dados numa ListView
-            listView.adapter = SalonServicesAdapter(requireActivity(), requireContext(), services.services)
+            listView.adapter = SalonServicesAdapter(requireActivity(), requireContext(), services.services, this@SalonServicesFragment)
         }
 
         // botão para ir para a activity de adicionar um serviço
@@ -75,7 +75,7 @@ class SalonServicesFragment : Fragment() {
         salonServicesRepository.getSalonServices { services ->
             Log.d("onResume", "Services: $services")
             // Aqui temos acesso aos serviços do salão. Chamar classe de adapter (SalonServicesAdapter) e lançar esses dados numa ListView
-            listView.adapter = SalonServicesAdapter(requireActivity(), requireContext(), services.services)
+            listView.adapter = SalonServicesAdapter(requireActivity(), requireContext(), services.services, this@SalonServicesFragment)
         }
     }
 
@@ -98,4 +98,15 @@ class SalonServicesFragment : Fragment() {
                 }
             }
     }
+
+    override fun onServiceDeleted() {
+        salonServicesRepository.getSalonServices { services ->
+            Log.d("onServiceDeleted", "Services: $services")
+            listView.adapter = SalonServicesAdapter(requireActivity(), requireContext(), services.services, this@SalonServicesFragment)
+        }
+    }
+}
+
+interface ServiceDeletedListener {
+    fun onServiceDeleted()
 }

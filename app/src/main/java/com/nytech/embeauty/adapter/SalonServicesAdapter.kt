@@ -16,6 +16,7 @@ import androidx.fragment.app.FragmentActivity
 import com.nytech.embeauty.R
 import com.nytech.embeauty.view.salon.UpdateServiceActivity
 import com.nytech.embeauty.constants.IntentConstants
+import com.nytech.embeauty.fragment.ServiceDeletedListener
 import com.nytech.embeauty.model.SalonServices
 import com.nytech.embeauty.repository.SalonServicesRepository
 
@@ -25,7 +26,8 @@ import com.nytech.embeauty.repository.SalonServicesRepository
 class SalonServicesAdapter(
     private val fragmentActivity: FragmentActivity,
     private val context: Context,
-    private val salonServices: List<SalonServices.Service>
+    private val salonServices: List<SalonServices.Service>,
+    private val serviceDeletedListener: ServiceDeletedListener
 ) : ArrayAdapter<SalonServices.Service>(context, R.layout.services_list_item, salonServices) {
 
     @SuppressLint("ViewHolder", "InflateParams")
@@ -77,6 +79,7 @@ class SalonServicesAdapter(
                 salonServicesRepository.deleteSalonService(serviceName) {
                     // Lógica a ser executada quando a exclusão for concluída com sucesso
                     Toast.makeText(context, "Serviço excluído com sucesso", Toast.LENGTH_SHORT).show()
+                    serviceDeletedListener.onServiceDeleted()
                 }
             }
             .setNegativeButton("Não", null)
