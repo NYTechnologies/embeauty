@@ -1,11 +1,14 @@
 package com.nytech.embeauty.fragment
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import com.nytech.embeauty.R
+import com.nytech.embeauty.view.salon.NewAppointmentActivity
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -36,6 +39,16 @@ class SalonAppointmentFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_salon_appointment, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        view.findViewById<Button>(R.id.buttonAppointment).setOnClickListener {
+            // Intent indo para a NewAppointmentActivity
+            val intent = Intent(activity, NewAppointmentActivity::class.java)
+            startActivity(intent)
+        }
     }
 
     companion object {
