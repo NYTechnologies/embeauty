@@ -1,8 +1,10 @@
 package com.nytech.embeauty.repository
 
+import android.app.Activity
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.nytech.embeauty.model.SalonAppointments
+import com.nytech.embeauty.view.salon.NewAppointmentActivity
 
 /**
  * Repositório para gerenciamento das informações de Agendamentos (Appointments) dos Salões
@@ -46,11 +48,70 @@ class SalonAppointmentsRepository {
             }
     }
 
-    // Create: Função para cadastrar Agendamentos assim que a conta do Salão for criada
-    fun registerFirstSalonAppointments(date: String, salonAppointments: SalonAppointments) {
+    // Create: Função para cadastrar um novo Agendamento (Appointment)
+    fun registerNewSalonAppointment(
+        activity: Activity,
+        appointment: SalonAppointments.Appointment
+    ) {
+        // Pega o dia no formato [dd/MM/yyyy] que está na propriedade startDateTime [dd/MM/yyyy, HH:mm]
+        val date = appointment.startDateTime.split(",")[0]
+        // Passa o parâmetro 'date' para a função de pegar a referência do documento
         val salonAppointmentsDocumentReference = getSalonAppointmentsDocumentReferenceByDate(date)
 
         salonAppointmentsDocumentReference
-            .set(salonAppointments)
+            .get()
+            .addOnSuccessListener { documentSnapshot ->
+                // Caso a requisição do get() der sucesso, devolve os dados de SalonAppointments
+                val salonAppointments = documentSnapshot.toObject(SalonAppointments::class.java)
+
+                if (salonAppointments != null) {
+                    // Faz uma cópia dos agendamentos existentes para poder atualizar e adiciona o novo agendamento a essa lista
+                    val updatedAppointments = salonAppointments.appointments.toMutableList()
+                    updatedAppointments.add(appointment)
+
+                    // Substitui a lista antiga pela lista com o novo agendamento adicionado
+                    salonAppointments.appointments = updatedAppointments
+
+                    // Com a nova Lista de agendamentos atualizada, faz uma nova chamada ao Database para atualizar lá tbm
+                    salonAppointmentsDocumentReference
+                        .set(salonAppointments)
+                        .addOnSuccessListener {
+                            // Caso tenha sucesso na atualização do agendamento, retornar para a SalonMainActivity chamando a função registerNewAppointmentSuccess() da NewAppointmentActivity
+                            when (activity) {
+                                is NewAppointmentActivity -> activity.registerNewAppointmentSuccess()
+                            }
+                        }.addOnFailureListener {
+                            TODO("Implementar alguma mensagem quando der erro no cadastro")
+                        }
+                } else {
+                    registerFirstSalonAppointments(activity, appointment)
+                }
+            }
+    }
+
+
+    // Create: Função para cadastrar Agendamentos assim que a conta do Salão for criada
+    fun registerFirstSalonAppointments(
+        activity: Activity,
+        appointment: SalonAppointments.Appointment
+    ) {
+        // Pega o dia no formato [dd/MM/yyyy] que está na propriedade startDateTime [dd/MM/yyyy, HH:mm]
+        val date = appointment.startDateTime.split(",")[0]
+        val salonAppointmentsDocumentReference = getSalonAppointmentsDocumentReferenceByDate(date)
+
+        val firstAppointment = listOf(appointment)
+        val salonFirstAppointments = SalonAppointments()
+        salonFirstAppointments.appointments = firstAppointment
+
+        salonAppointmentsDocumentReference
+            .set(salonFirstAppointments)
+            .addOnSuccessListener {
+                // Caso tenha sucesso na atualização do agendamento, retornar para a SalonMainActivity chamando a função registerNewAppointmentSuccess() da NewAppointmentActivity
+                when (activity) {
+                    is NewAppointmentActivity -> activity.registerNewAppointmentSuccess()
+                }
+            }.addOnFailureListener {
+                TODO("Implementar alguma mensagem quando der erro no cadastro")
+            }
     }
 }

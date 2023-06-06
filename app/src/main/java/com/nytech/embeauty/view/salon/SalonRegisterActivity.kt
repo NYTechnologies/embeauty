@@ -15,7 +15,6 @@ import com.nytech.embeauty.model.SalonProfile
 import com.nytech.embeauty.repository.SalonAppointmentsRepository
 import com.nytech.embeauty.repository.SalonProfileRepository
 import com.nytech.embeauty.repository.SalonServicesRepository
-import com.nytech.embeauty.utils.generateDummySalonAppointments
 import com.nytech.embeauty.utils.generateDummySalonServices
 import com.nytech.embeauty.utils.getCurrentDate
 
@@ -116,7 +115,7 @@ class SalonRegisterActivity : AppCompatActivity() {
                         // Salva dois Serviços Base (Falsos) no DB SalonServices do FiresStore usando o SalonServicesRepository
                         salonServicesRepository.registerFirstSalonServices(generateDummySalonServices())
                         // Salva Vários Agendamentos do dia de criação da conta para testarmos a Home
-                        salonAppointmentsRepository.registerFirstSalonAppointments(getCurrentDate(), generateDummySalonAppointments())
+                        //salonAppointmentsRepository.registerFirstSalonAppointments(getCurrentDate(), generateDummySalonAppointments())
                         // Salva o SalonProfile no DB SalonProfile do FireStore usando o SalonProfileRepository
                         salonProfileRepository.registerNewSalonProfile(this@SalonRegisterActivity, salonProfile)
                     } else {

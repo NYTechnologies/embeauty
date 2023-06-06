@@ -32,17 +32,20 @@ class SalonHomeAdapter(
         val endAt: TextView = view.findViewById(R.id.salonHomeAppointmentEndAt)
         val barVertical: View = view.findViewById(R.id.salonHomeBarVertical)
 
+        val formattedStartTime = salonAppointments[position].startDateTime.split(",")[1].trim()
+        val formattedEndTime = salonAppointments[position].endDateTime.split(",")[1].trim()
+
         // Coloca as informações vinda do Backend nos devidos lugares
         serviceName.text = salonAppointments[position].serviceName
         clientName.text = salonAppointments[position].clientName
-        startAt.text = salonAppointments[position].startAt
-        endAt.text = salonAppointments[position].endAt
+        startAt.text = formattedStartTime
+        endAt.text = formattedEndTime
 
-        // Lógica para verificar se o agendamento já expirou o horário (endAt)
+/*        // Lógica para verificar se o agendamento já expirou o horário (endAt)
         val currentTime = Calendar.getInstance()
-        val startAtTime = SimpleDateFormat("HH:mm", Locale.getDefault()).parse(salonAppointments[position].startAt)
+        val startAtTime = SimpleDateFormat("HH:mm", Locale.getDefault()).parse(formattedStartTime)
         val startAtCalendar = Calendar.getInstance().apply { time = startAtTime!! }
-        val endAtTime = SimpleDateFormat("HH:mm", Locale.getDefault()).parse(salonAppointments[position].endAt)
+        val endAtTime = SimpleDateFormat("HH:mm", Locale.getDefault()).parse(formattedEndTime)
         val endAtCalendar = Calendar.getInstance().apply { time = endAtTime!! }
 
         when {
@@ -58,7 +61,7 @@ class SalonHomeAdapter(
                 // Horário ainda não começou, definir cor verde
                 barVertical.setBackgroundColor(ContextCompat.getColor(context, R.color.green_primary))
             }
-        }
+        }*/
 
         return view
     }
