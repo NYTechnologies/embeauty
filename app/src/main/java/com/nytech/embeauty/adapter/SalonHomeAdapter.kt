@@ -2,17 +2,16 @@ package com.nytech.embeauty.adapter
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.graphics.Paint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.TextView
 import androidx.core.content.ContextCompat
+import com.google.firebase.Timestamp
 import com.nytech.embeauty.R
 import com.nytech.embeauty.model.SalonAppointments
-import java.text.SimpleDateFormat
-import java.util.Calendar
-import java.util.Locale
 
 class SalonHomeAdapter(
     private val context: Context,
@@ -41,27 +40,27 @@ class SalonHomeAdapter(
         startAt.text = formattedStartTime
         endAt.text = formattedEndTime
 
-/*        // Lógica para verificar se o agendamento já expirou o horário (endAt)
-        val currentTime = Calendar.getInstance()
-        val startAtTime = SimpleDateFormat("HH:mm", Locale.getDefault()).parse(formattedStartTime)
-        val startAtCalendar = Calendar.getInstance().apply { time = startAtTime!! }
-        val endAtTime = SimpleDateFormat("HH:mm", Locale.getDefault()).parse(formattedEndTime)
-        val endAtCalendar = Calendar.getInstance().apply { time = endAtTime!! }
+        // Lógica para verificar se o agendamento já expirou o horário baseado no startTimestamp e endTimestamp
+        val startTimestamp = salonAppointments[position].startTimestamp!!.seconds
+        val endTimestamp = salonAppointments[position].endTimestamp!!.seconds
+
+        val currentTimestamp = Timestamp.now().seconds
 
         when {
-            currentTime.time >= endAtCalendar.time -> {
-                // Horário já passou, definir cor cinza
+            currentTimestamp > endTimestamp  -> {
+                // O agendamento já passou do horário de término (end)
                 barVertical.setBackgroundColor(ContextCompat.getColor(context, R.color.gray_dark))
-            }
-            currentTime.time >= startAtCalendar.time && currentTime.time < endAtCalendar.time -> {
-                // Horário está entre startAt e endAt, definir cor amarela
-                barVertical.setBackgroundColor(ContextCompat.getColor(context, R.color.safety_yellow))
+                serviceName.paintFlags = serviceName.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
+                clientName.paintFlags = clientName.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
+                startAt.paintFlags = startAt.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
+                endAt.paintFlags = endAt.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
+
             }
             else -> {
-                // Horário ainda não começou, definir cor verde
-                barVertical.setBackgroundColor(ContextCompat.getColor(context, R.color.green_primary))
+                // O agendamento ainda não chegou no horário de início (start)
+                barVertical.setBackgroundColor(ContextCompat.getColor(context, R.color.calendar_green))
             }
-        }*/
+        }
 
         return view
     }

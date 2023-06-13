@@ -11,8 +11,10 @@
     <color name="pink_primary">#FD76A9</color>
     <color name="green_primary">#88B77C</color>
     <color name="gray_light">#EEEEEE</color>
-    <color name="gray_dark">#555555</color>
+    <color name="gray_dark">#adb6c4</color>
     <color name="bottom_nav_background">#eeeeee</color>
     <color name="bottom_nav_selected_item">#fb186f</color>
     <color name="safety_yellow">#eed202</color>
+    <color name="calendar_green">#2ec4b6</color>
+    <color name="test_bege">#f1e3d3</color>
 </resources>
