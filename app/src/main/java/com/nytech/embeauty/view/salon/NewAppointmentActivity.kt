@@ -5,6 +5,10 @@ import android.app.TimePickerDialog
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.DatePicker
+import android.widget.Toast
+import com.nytech.embeauty.constants.ToastTextConstants.POR_FAVOR_INSIRA_A_DATA_DO_SERVICE
+import com.nytech.embeauty.constants.ToastTextConstants.POR_FAVOR_INSIRA_A_DURACAO_DO_SERVICE
+import com.nytech.embeauty.constants.ToastTextConstants.POR_FAVOR_INSIRA_O_NOME_DO_SERVICE
 import com.nytech.embeauty.databinding.ActivityNewAppointmentBinding
 import com.nytech.embeauty.model.SalonAppointments
 import com.nytech.embeauty.repository.SalonAppointmentsRepository
@@ -35,6 +39,36 @@ class NewAppointmentActivity : AppCompatActivity() {
             val startDateTime = binding.editDateTime.text.toString()
             val serviceDuration = binding.editServiceDuration.text.toString().trim { it <= ' ' }
             val serviceName = binding.editServiceNameAppointment.text.toString()
+
+            //checa se o nome do service foi colocado e notifica caso não tenha sido
+            if (serviceName.isEmpty()) {
+                Toast.makeText(
+                    this@NewAppointmentActivity,
+                    POR_FAVOR_INSIRA_O_NOME_DO_SERVICE,
+                    Toast.LENGTH_SHORT
+                ).show()
+                return@setOnClickListener
+            }
+
+            //checa se a duração do service foi colocado e notifica caso não tenha sido
+            if (serviceDuration.isEmpty()) {
+                Toast.makeText(
+                    this@NewAppointmentActivity,
+                    POR_FAVOR_INSIRA_A_DURACAO_DO_SERVICE,
+                    Toast.LENGTH_SHORT
+                ).show()
+                return@setOnClickListener
+            }
+
+            //checa se a data do service foi colocada e notifica caso não tenha sido
+            if (startDateTime.isEmpty()) {
+                Toast.makeText(
+                    this@NewAppointmentActivity,
+                    POR_FAVOR_INSIRA_A_DATA_DO_SERVICE,
+                    Toast.LENGTH_SHORT
+                ).show()
+                return@setOnClickListener
+            }
 
             // Instancia um Appointment com as informações passadas, e chama suas funções para setar as outras propriedades
             val appointment = SalonAppointments.Appointment(

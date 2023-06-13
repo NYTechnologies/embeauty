@@ -12,5 +12,6 @@ object ToastTextConstants {
     const val POR_FAVOR_INSIRA_O_NUMERO_TELEFONE = "Por favor, insira um número de telefone"
     const val CADASTRO_REALIZADO_COM_SUCESSO = "Cadastro realizado com sucesso!"
     const val LOGIN_REALIZADO_COM_SUCESSO = "Login realizado com sucesso!"
-
+    const val POR_FAVOR_INSIRA_A_DURACAO_DO_SERVICE = "Por favor, insira a duração do serviço"
+    const val POR_FAVOR_INSIRA_A_DATA_DO_SERVICE = "Por favor, insira a data do serviço"
 }
