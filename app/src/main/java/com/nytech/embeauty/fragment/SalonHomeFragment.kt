@@ -70,8 +70,11 @@ class SalonHomeFragment : Fragment() {
         // Busca via SalonAppointmentsRepository os agendamentos de HOJE do Salão
         salonAppointmentsRepository.getSalonAppointmentsByDate(getCurrentDate()) { salonAppointments ->
             Log.d("SalonHomeFragment", "Agendamentos de hoje: ${salonAppointments.appointments}")
-            // Passamos para o adapter (SalonHomeAdapter) os agendamentos de hoje para ele serializar e disponibilizar a Interface (Tela)
-            listView.adapter = SalonHomeAdapter(requireContext(), salonAppointments.appointments)
+            // ordena os agendamentos com base no startTimestamp
+            val sortedAppointments = salonAppointments.appointments.sortedBy { it.startTimestamp }
+
+                // Passamos para o adapter (SalonHomeAdapter) os agendamentos de hoje para ele serializar e disponibilizar a Interface (Tela)
+            listView.adapter = SalonHomeAdapter(requireContext(), sortedAppointments)
         }
 
         return view
