@@ -1,5 +1,6 @@
 package com.nytech.embeauty.view.salon
 
+import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -11,7 +12,9 @@ import com.nytech.embeauty.constants.ToastTextConstants.POR_FAVOR_INSIRA_A_DURAC
 import com.nytech.embeauty.constants.ToastTextConstants.POR_FAVOR_INSIRA_O_NOME_DO_SERVICE
 import com.nytech.embeauty.databinding.ActivityNewAppointmentBinding
 import com.nytech.embeauty.model.SalonAppointments
+import com.nytech.embeauty.model.SalonServices
 import com.nytech.embeauty.repository.SalonAppointmentsRepository
+import com.nytech.embeauty.repository.SalonServicesRepository
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -19,7 +22,9 @@ class NewAppointmentActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityNewAppointmentBinding
     private val calendar: Calendar = Calendar.getInstance()
-    private val salonAppointmentsRepository: SalonAppointmentsRepository = SalonAppointmentsRepository()
+    private val salonAppointmentsRepository: SalonAppointmentsRepository =
+        SalonAppointmentsRepository()
+    private val salonServicesRepository: SalonServicesRepository = SalonServicesRepository()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         supportActionBar?.hide()
@@ -28,8 +33,20 @@ class NewAppointmentActivity : AppCompatActivity() {
 
         setContentView(binding.root)
 
+        var servicesName = emptyList<String>()
+
+        salonServicesRepository.getSalonServices { salonServices ->
+            servicesName = salonServices.services.map { it.name } + "Outros"
+        }
+
         binding.editDateTime.setOnClickListener {
             showDateTimePicker()
+        }
+
+        binding.editServiceNameAppointment.isFocusable = false
+
+        binding.editServiceNameAppointment.setOnClickListener {
+            showSalonServices(servicesName)
         }
 
         binding.buttonNewAppointment.setOnClickListener {
@@ -82,9 +99,32 @@ class NewAppointmentActivity : AppCompatActivity() {
                 setEndParameters(this.startTimestamp!!, this.durationMinutes)
             }
 
-            salonAppointmentsRepository.registerNewSalonAppointment(this@NewAppointmentActivity, appointment)
+            salonAppointmentsRepository.registerNewSalonAppointment(
+                this@NewAppointmentActivity,
+                appointment
+            )
         }
 
+    }
+
+    private fun showSalonServices(salonServices: List<String>) {
+        var selectedIndex = 0
+        val servicesName = salonServices.toTypedArray()
+        var selectedService = servicesName[selectedIndex]
+        val servicesDialog = AlertDialog.Builder(this)
+            .setTitle("Escolha o serviço:")
+            .setSingleChoiceItems(servicesName, selectedIndex) { _, which ->
+                selectedIndex = which
+                selectedService = servicesName[selectedIndex]
+            }
+            .setPositiveButton("OK") { _, _ ->
+                binding.editServiceNameAppointment.setText(selectedService)
+                binding.editServiceNameAppointment.isFocusable = true
+            }
+            .setNegativeButton("Cancelar") { _, _ ->
+                binding.editServiceNameAppointment.isFocusable = true
+            }
+        servicesDialog.show()
     }
 
     private fun showDateTimePicker() {
@@ -116,7 +156,7 @@ class NewAppointmentActivity : AppCompatActivity() {
                 calendar.set(Calendar.MINUTE, minute)
 
                 val selectedDateTime = calendar.time
-                val sdf = SimpleDateFormat( "dd/MM/yyyy, HH:mm", Locale.getDefault())
+                val sdf = SimpleDateFormat("dd/MM/yyyy, HH:mm", Locale.getDefault())
                 val formattedDateTime = sdf.format(selectedDateTime)
 
                 binding.editDateTime.setText(formattedDateTime)
