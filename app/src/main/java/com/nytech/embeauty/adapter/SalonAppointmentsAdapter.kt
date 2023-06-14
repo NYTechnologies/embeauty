@@ -2,16 +2,19 @@ package com.nytech.embeauty.adapter
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
 import android.graphics.Paint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import android.widget.ImageButton
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import com.google.firebase.Timestamp
 import com.nytech.embeauty.R
 import com.nytech.embeauty.model.SalonAppointments
+import com.nytech.embeauty.view.salon.UpdateAppointmentActivity
 
 class SalonAppointmentsAdapter(
     private val context: Context,
@@ -34,6 +37,7 @@ class SalonAppointmentsAdapter(
 
         val formattedStartTime = salonAppointments[position].startDateTime.split(",")[1].trim()
         val formattedEndTime = salonAppointments[position].endDateTime.split(",")[1].trim()
+        val appointmentUUID = salonAppointments[position].uuid
 
         // Coloca as informações vinda do Backend nos devidos lugares
         serviceName.text = salonAppointments[position].serviceName
@@ -61,6 +65,24 @@ class SalonAppointmentsAdapter(
                 // O agendamento ainda não chegou no horário de início (start)
                 barVertical.setBackgroundColor(ContextCompat.getColor(context, R.color.calendar_green))
             }
+        }
+
+        // Lógica do botão de editar o agendamento
+        val editAppointmentButton = view.findViewById<ImageButton>(R.id.salonAppointmentEditButton)
+        editAppointmentButton.setOnClickListener {
+
+            // Criar a intenção (Intent) para a activity de edição de serviço
+            val intent = Intent(context, UpdateAppointmentActivity::class.java)
+
+            intent.putExtra("uuid", appointmentUUID)
+            intent.putExtra("old_client_name", salonAppointments[position].clientName)
+            intent.putExtra("old_client_phone", salonAppointments[position].clientPhone)
+            intent.putExtra("old_start_date_time", salonAppointments[position].startDateTime)
+            intent.putExtra("old_duration", salonAppointments[position].durationMinutes.toString())
+            intent.putExtra("old_service_name", salonAppointments[position].serviceName)
+
+            context.startActivity(intent)
+
         }
 
         return view

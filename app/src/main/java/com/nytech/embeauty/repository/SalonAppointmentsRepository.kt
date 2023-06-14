@@ -114,4 +114,54 @@ class SalonAppointmentsRepository {
                 TODO("Implementar alguma mensagem quando der erro no cadastro")
             }
     }
+
+    // Update: função para editar um agendamento existente utilizando o UUID para encontrá-lo no firestore
+    fun updateSalonAppointment(
+        activity: Activity,
+        appointmentNewInfo: SalonAppointments.Appointment,
+        oldStartDateTime: String,
+        onComplete: () -> Unit
+    ) {
+        // Pega o dia no formato [dd/MM/yyyy] que está na propriedade startDateTime [dd/MM/yyyy, HH:mm]
+        val oldDate = oldStartDateTime.split(",")[0]
+        val salonAppointmentsDocumentReference =
+            getSalonAppointmentsDocumentReferenceByDate(oldDate)
+
+        salonAppointmentsDocumentReference
+            .get()
+            .addOnSuccessListener { documentSnapshot ->
+                // Caso a requisição do get() der sucesso, devolve os dados de SalonAppointments
+                val salonAppointments = documentSnapshot.toObject(SalonAppointments::class.java)
+
+                if (salonAppointments != null) {
+                    // Faz uma cópia dos agendamentos existentes para poder atualizar um agendamento
+                    val updatedAppointments = salonAppointments.appointments.toMutableList()
+
+                    // Encontra o agendamento a ser atualizado pelo UUID
+                    val appointmentToBeUpdated =
+                        updatedAppointments.find { it.uuid == appointmentNewInfo.uuid }
+                    if (appointmentToBeUpdated != null) {
+                        // Atualiza as informações do agendamento com as novas informações de agendamento
+                        val updatedAppointment = appointmentNewInfo
+                        val indexOfAppointmentToBeUpdated =
+                            updatedAppointments.indexOf(appointmentToBeUpdated)
+                        updatedAppointments[indexOfAppointmentToBeUpdated] = updatedAppointment
+
+                        salonAppointments.appointments = updatedAppointments
+
+                        // Com a nova lista de agendamentos atualizadas, faz uma nova chamada ao Database para colocar essa nova lista no lugar da anterior
+                        salonAppointmentsDocumentReference
+                            .set(salonAppointments)
+                            .addOnSuccessListener {
+                                // Caso tenha sucesso na atualização do serviço
+                                onComplete()
+                            }
+                            .addOnFailureListener {
+                                // Em caso de falha na atualização do serviço
+                                TODO("Implementar alguma mensagem quando ocorrer erro na atualização")
+                            }
+                    }
+                }
+            }
+    }
 }

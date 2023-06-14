@@ -5,32 +5,30 @@ import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.DatePicker
 import android.widget.Toast
-import com.nytech.embeauty.constants.ToastTextConstants.POR_FAVOR_INSIRA_A_DATA_DO_SERVICE
-import com.nytech.embeauty.constants.ToastTextConstants.POR_FAVOR_INSIRA_A_DURACAO_DO_SERVICE
-import com.nytech.embeauty.constants.ToastTextConstants.POR_FAVOR_INSIRA_O_NOME_DO_SERVICE
-import com.nytech.embeauty.databinding.ActivityNewAppointmentBinding
+import com.nytech.embeauty.R
+import com.nytech.embeauty.constants.ToastTextConstants
+import com.nytech.embeauty.databinding.ActivityUpdateAppointmentBinding
 import com.nytech.embeauty.model.SalonAppointments
-import com.nytech.embeauty.model.SalonServices
 import com.nytech.embeauty.repository.SalonAppointmentsRepository
 import com.nytech.embeauty.repository.SalonServicesRepository
 import java.text.SimpleDateFormat
 import java.util.*
 
-class NewAppointmentActivity : AppCompatActivity() {
+class UpdateAppointmentActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityNewAppointmentBinding
-    private val calendar: Calendar = Calendar.getInstance()
+    private lateinit var binding: ActivityUpdateAppointmentBinding
     private val salonAppointmentsRepository: SalonAppointmentsRepository =
         SalonAppointmentsRepository()
+    private val calendar: Calendar = Calendar.getInstance()
     private val salonServicesRepository: SalonServicesRepository = SalonServicesRepository()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        supportActionBar?.hide()
 
-        binding = ActivityNewAppointmentBinding.inflate(layoutInflater)
-
+        binding = ActivityUpdateAppointmentBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         var servicesName = emptyList<String>()
@@ -39,73 +37,98 @@ class NewAppointmentActivity : AppCompatActivity() {
             servicesName = salonServices.services.map { it.name } + "Outros"
         }
 
+        // Captura os atributos do agendamento a ser editado vindo do INTENT
+        val appointmentUUID = intent.getStringExtra("uuid").toString()
+        val oldClientName = intent.getStringExtra("old_client_name").toString()
+        val oldClientPhone = intent.getStringExtra("old_client_phone").toString()
+        val oldStartDateTime = intent.getStringExtra("old_start_date_time").toString()
+        val oldDuration = intent.getStringExtra("old_duration").toString()
+        val oldServiceName = intent.getStringExtra("old_service_name").toString()
+
+        Log.d(
+            "UpdateAppointmentActivity",
+            "$appointmentUUID, $oldClientName, $oldClientPhone, $oldStartDateTime, $oldDuration, $oldServiceName"
+        )
+
+        // Popula os campos de input com os valores que estavam preenchidos anteriormente
+        binding.editUpdateClientName.setText(oldClientName)
+        binding.editUpdateClientPhone.setText(oldClientPhone)
+        binding.editUpdateDateTime.setText(oldStartDateTime)
+        binding.editUpdateServiceDuration.setText(oldDuration)
+        binding.editUpdateServiceNameAppointment.setText(oldServiceName)
+
         // Listener do campo de Data
-        binding.editDateTime.setOnClickListener {
+        binding.editUpdateDateTime.setOnClickListener {
             showDateTimePicker()
         }
 
         // Listener do campo de Nome do Serviço
-        binding.editServiceNameAppointment.isFocusable = false
-        binding.editServiceNameAppointment.setOnClickListener {
+        binding.editUpdateServiceNameAppointment.isFocusable = false
+        binding.editUpdateServiceNameAppointment.setOnClickListener {
             showSalonServices(servicesName)
         }
 
-        binding.buttonNewAppointment.setOnClickListener {
-            // Armazenar os dados digitados nos campos
-            val clientName = binding.editClientName.text.toString()
-            val clientPhone = binding.editClientPhone.text.toString().trim { it <= ' ' }
-            val startDateTime = binding.editDateTime.text.toString()
-            val serviceDuration = binding.editServiceDuration.text.toString().trim { it <= ' ' }
-            val serviceName = binding.editServiceNameAppointment.text.toString()
+        // Lógica do botão para enviar a edição do agendamento
+        binding.buttonEditAppointment.setOnClickListener {
+            // Armazenar os dados digitados nos campos em variáveis
+            val newClientName = binding.editUpdateClientName.text.toString()
+            val newClientPhone = binding.editUpdateClientPhone.text.toString().trim { it <= ' ' }
+            val newStartDateTime = binding.editUpdateDateTime.text.toString()
+            val newServiceDuration =
+                binding.editUpdateServiceDuration.text.toString().trim { it <= ' ' }
+            val newServiceName = binding.editUpdateServiceNameAppointment.text.toString()
 
             //checa se o nome do service foi colocado e notifica caso não tenha sido
-            if (serviceName.isEmpty()) {
+            if (newServiceName.isEmpty()) {
                 Toast.makeText(
-                    this@NewAppointmentActivity,
-                    POR_FAVOR_INSIRA_O_NOME_DO_SERVICE,
+                    this@UpdateAppointmentActivity,
+                    ToastTextConstants.POR_FAVOR_INSIRA_O_NOME_DO_SERVICE,
                     Toast.LENGTH_SHORT
                 ).show()
                 return@setOnClickListener
             }
 
             //checa se a duração do service foi colocado e notifica caso não tenha sido
-            if (serviceDuration.isEmpty()) {
+            if (newServiceDuration.isEmpty()) {
                 Toast.makeText(
-                    this@NewAppointmentActivity,
-                    POR_FAVOR_INSIRA_A_DURACAO_DO_SERVICE,
+                    this@UpdateAppointmentActivity,
+                    ToastTextConstants.POR_FAVOR_INSIRA_A_DURACAO_DO_SERVICE,
                     Toast.LENGTH_SHORT
                 ).show()
                 return@setOnClickListener
             }
 
             //checa se a data do service foi colocada e notifica caso não tenha sido
-            if (startDateTime.isEmpty()) {
+            if (newStartDateTime.isEmpty()) {
                 Toast.makeText(
-                    this@NewAppointmentActivity,
-                    POR_FAVOR_INSIRA_A_DATA_DO_SERVICE,
+                    this@UpdateAppointmentActivity,
+                    ToastTextConstants.POR_FAVOR_INSIRA_A_DATA_DO_SERVICE,
                     Toast.LENGTH_SHORT
                 ).show()
                 return@setOnClickListener
             }
 
-            // Instancia um Appointment com as informações passadas, e chama suas funções para setar as outras propriedades
-            val appointment = SalonAppointments.Appointment(
-                clientName = clientName,
-                clientPhone = clientPhone,
-                startDateTime = startDateTime,
-                durationMinutes = serviceDuration.toInt(),
-                serviceName = serviceName
+            // Instancia um Appointment com as informações passadas (com UUID), e chama suas funções para setar as outras propriedades
+            val appointmentToBeUpdated = SalonAppointments.Appointment(
+                uuid = appointmentUUID,
+                clientName = newClientName,
+                clientPhone = newClientPhone,
+                startDateTime = newStartDateTime,
+                durationMinutes = newServiceDuration.toInt(),
+                serviceName = newServiceName
             ).apply {
                 setsStartTimestamp(this.startDateTime)
                 setEndParameters(this.startTimestamp!!, this.durationMinutes)
             }
 
-            salonAppointmentsRepository.registerNewSalonAppointment(
-                this@NewAppointmentActivity,
-                appointment
-            )
+            salonAppointmentsRepository.updateSalonAppointment(
+                this@UpdateAppointmentActivity,
+                appointmentToBeUpdated,
+                oldStartDateTime
+            ) {
+                finish()
+            }
         }
-
     }
 
     private fun showSalonServices(salonServices: List<String>) {
@@ -119,11 +142,11 @@ class NewAppointmentActivity : AppCompatActivity() {
                 selectedService = servicesName[selectedIndex]
             }
             .setPositiveButton("OK") { _, _ ->
-                binding.editServiceNameAppointment.setText(selectedService)
-                binding.editServiceNameAppointment.isFocusable = true
+                binding.editUpdateServiceNameAppointment.setText(selectedService)
+                binding.editUpdateServiceNameAppointment.isFocusable = true
             }
             .setNegativeButton("Cancelar") { _, _ ->
-                binding.editServiceNameAppointment.isFocusable = true
+                binding.editUpdateServiceNameAppointment.isFocusable = true
             }
         servicesDialog.show()
     }
@@ -160,8 +183,8 @@ class NewAppointmentActivity : AppCompatActivity() {
                 val sdf = SimpleDateFormat("dd/MM/yyyy, HH:mm", Locale.getDefault())
                 val formattedDateTime = sdf.format(selectedDateTime)
 
-                binding.editDateTime.setText(formattedDateTime)
-                binding.tilDateTime.isErrorEnabled = false
+                binding.editUpdateDateTime.setText(formattedDateTime)
+                binding.tilUpdateDateTime.isErrorEnabled = false
             },
             hour,
             initialMinute,
@@ -174,6 +197,4 @@ class NewAppointmentActivity : AppCompatActivity() {
     fun registerNewAppointmentSuccess() {
         finish()
     }
-
-
 }
