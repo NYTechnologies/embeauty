@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="10dp"
+            android:orientation="horizontal">
+
+            <!-- Barra Vertical -->
+            <View
+                android:id="@+id/salonAppointmentBarVertical"
+                android:layout_width="5dp"
+                android:layout_height="match_parent"
+                android:background="@color/gray_light" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/salonAppointmentStartAt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="00:00"
+                    android:textColor="@color/black"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/salonAppointmentEndAt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="3dp"
+                    android:text="00:00"
+                    android:textSize="14sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="50dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/salonAppointmentServiceName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Service Name"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/salonAppointmentClientName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Client Name"
+                    android:textColor="@color/black"
+                    android:textSize="14sp" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+        <ImageButton
+            android:id="@+id/salonAppointmentEditButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="18dp"
+            android:layout_marginEnd="55dp"
+            android:background="?attr/selectableItemBackground"
+            android:contentDescription="Edit"
+            android:src="@drawable/baseline_edit_28"
+            android:tint="#343a40"
+            tools:ignore="UseAppTint" />
+
+        <ImageButton
+            android:id="@+id/salonAppointmentDeleteButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="18dp"
+            android:layout_marginEnd="20dp"
+            android:background="?attr/selectableItemBackground"
+            android:contentDescription="Delete"
+            android:src="@drawable/baseline_delete_forever_28"
+            app:tint="#d90429" />
+    </RelativeLayout>
+
+</LinearLayout>

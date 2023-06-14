@@ -26,18 +26,25 @@
             android:textStyle="bold" />
 
         <CalendarView
+            android:id="@+id/appointmentsCalendar"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="288dp" />
+
+        <Button
+            android:id="@+id/buttonAppointment"
+            android:layout_width="match_parent"
+            android:layout_marginTop="20dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:backgroundTint="#FF4081"
+            android:text="Novo Agendamento" />
+
+        <ListView
+            android:id="@+id/listSalonAppointments"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:listitem="@layout/appointments_list_item"/>
 
     </LinearLayout>
-
-    <Button
-        android:id="@+id/buttonAppointment"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="end|bottom"
-        android:layout_margin="15dp"
-        android:backgroundTint="#FF4081"
-        android:text="+ agendar" />
 
 </FrameLayout>
