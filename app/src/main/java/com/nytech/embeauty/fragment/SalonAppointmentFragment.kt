@@ -15,6 +15,7 @@ import com.nytech.embeauty.adapter.SalonAppointmentsAdapter
 import com.nytech.embeauty.constants.GenericConstants
 import com.nytech.embeauty.model.SalonAppointments
 import com.nytech.embeauty.repository.SalonAppointmentsRepository
+import com.nytech.embeauty.utils.getCurrentDate
 import com.nytech.embeauty.view.salon.NewAppointmentActivity
 import java.text.SimpleDateFormat
 import java.time.format.DateTimeFormatter
@@ -38,6 +39,7 @@ class SalonAppointmentFragment : Fragment() {
     private val salonAppointmentsRepository: SalonAppointmentsRepository =
         SalonAppointmentsRepository()
     private lateinit var listView: ListView
+    private lateinit var calendarView: CalendarView
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -59,6 +61,7 @@ class SalonAppointmentFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         listView = view.findViewById(R.id.listSalonAppointments)
+        calendarView = view.findViewById<CalendarView>(R.id.appointmentsCalendar)
 
         // Botão de novo agendamento
         view.findViewById<Button>(R.id.buttonAppointment).setOnClickListener {
@@ -67,8 +70,24 @@ class SalonAppointmentFragment : Fragment() {
             startActivity(intent)
         }
 
-        // Verifica o click no calendário
-        view.findViewById<CalendarView>(R.id.appointmentsCalendar)
+        // Pega a data que já vem selecionada quando a página é renderizada e busca os agendamentos
+        val todayDate = getTodayDateFromCalendarView(calendarView)
+
+        salonAppointmentsRepository.getSalonAppointmentsByDate(todayDate) { salonAppointments ->
+            Log.d(
+                "SalonAppointmentsFragment",
+                "Agendamentos de $todayDate: ${salonAppointments.appointments}"
+            )
+            // ordena os agendamentos com base no startTimestamp
+            val sortedAppointments =
+                salonAppointments.appointments.sortedBy { it.startTimestamp }
+            // Passamos para o adapter (SalonHomeAdapter) os agendamentos de hoje para ele serializar e disponibilizar a Interface (Tela)
+            listView.adapter =
+                SalonAppointmentsAdapter(requireContext(), sortedAppointments)
+        }
+
+        // Verifica o click no calendário e busca os agendamentos pra data selecionada
+        calendarView
             .setOnDateChangeListener { _, year, month, day ->
                 // Pega a data selecionada e coloca no formato dd/MM/yyyy
                 val selectedDate =
@@ -86,9 +105,38 @@ class SalonAppointmentFragment : Fragment() {
                     listView.adapter =
                         SalonAppointmentsAdapter(requireContext(), sortedAppointments)
                 }
-
-
             }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        calendarView.date = Calendar.getInstance().timeInMillis
+        val currentSelectedDate = getTodayDateFromCalendarView(calendarView)
+        salonAppointmentsRepository.getSalonAppointmentsByDate(currentSelectedDate) { salonAppointments ->
+            Log.d(
+                "SalonAppointmentsFragment",
+                "Agendamentos de $currentSelectedDate: ${salonAppointments.appointments}"
+            )
+            // ordena os agendamentos com base no startTimestamp
+            val sortedAppointments =
+                salonAppointments.appointments.sortedBy { it.startTimestamp }
+            // Passamos para o adapter (SalonHomeAdapter) os agendamentos de hoje para ele serializar e disponibilizar a Interface (Tela)
+            listView.adapter =
+                SalonAppointmentsAdapter(requireContext(), sortedAppointments)
+        }
+    }
+
+    private fun getTodayDateFromCalendarView(calendarView: CalendarView): String {
+        val defaultSelectedDate = calendarView.date
+        val calendar = Calendar.getInstance()
+        calendar.timeInMillis = defaultSelectedDate
+        return String.format(
+            Locale.getDefault(),
+            "%02d/%02d/%04d",
+            calendar.get(Calendar.DAY_OF_MONTH),
+            calendar.get(Calendar.MONTH) + 1,
+            calendar.get(Calendar.YEAR)
+        )
     }
 
     companion object {

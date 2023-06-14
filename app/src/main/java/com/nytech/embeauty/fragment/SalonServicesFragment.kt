@@ -7,7 +7,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageButton
+import android.widget.Button
 import android.widget.ListView
 import com.nytech.embeauty.R
 import com.nytech.embeauty.adapter.SalonServicesAdapter
@@ -63,7 +63,7 @@ class SalonServicesFragment : Fragment(), ServiceDeletedListener {
         }
 
         // botão para ir para a activity de adicionar um serviço
-        view.findViewById<ImageButton>(R.id.buttonNewService).setOnClickListener {
+        view.findViewById<Button>(R.id.buttonNewService).setOnClickListener {
             // Intent declarando de onde vc está saindo e para onde quer ir
             val intent = Intent(activity, NewServiceActivity::class.java)
             startActivity(intent)

@@ -36,6 +36,15 @@
             android:textColor="@android:color/black"
             android:textSize="18sp" />
 
+        <Button
+            android:id="@+id/buttonNewService"
+            android:layout_width="match_parent"
+            android:layout_marginTop="20dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:backgroundTint="#FF4081"
+            android:text="Novo Serviço" />
+
         <ListView
             android:id="@+id/listViewSalonServices"
             android:layout_width="match_parent"
@@ -44,16 +53,5 @@
             android:layout_marginTop="20dp"/>
 
     </LinearLayout>
-
-
-    <ImageButton
-        android:id="@+id/buttonNewService"
-        android:layout_width="46dp"
-        android:layout_height="43dp"
-        android:layout_gravity="end|bottom"
-        android:layout_margin="16dp"
-        android:background="@drawable/round_button_background"
-        android:scaleType="centerInside"
-        android:src="@drawable/button_add_services" />
 
 </FrameLayout>
