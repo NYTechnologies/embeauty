@@ -9,6 +9,7 @@ data class SalonAppointments(
     var appointments: List<Appointment> = emptyList()
 ) {
     data class Appointment(
+        var uuid: String = UUID.randomUUID().toString(),
         var clientName: String = "",
         var clientPhone: String = "",
         var startDateTime: String = "",

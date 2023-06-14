@@ -41,7 +41,6 @@ class SalonAppointmentFragment : Fragment() {
     private lateinit var listView: ListView
     private lateinit var calendarView: CalendarView
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -61,7 +60,7 @@ class SalonAppointmentFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         listView = view.findViewById(R.id.listSalonAppointments)
-        calendarView = view.findViewById<CalendarView>(R.id.appointmentsCalendar)
+        calendarView = view.findViewById(R.id.appointmentsCalendar)
 
         // Botão de novo agendamento
         view.findViewById<Button>(R.id.buttonAppointment).setOnClickListener {
