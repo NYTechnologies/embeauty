@@ -87,10 +87,3 @@ class SalonServicesAdapter(
             .show()
     }
 }
-
-
-
-
-
-
-

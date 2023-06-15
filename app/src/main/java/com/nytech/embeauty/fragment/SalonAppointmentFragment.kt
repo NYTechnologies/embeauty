@@ -31,7 +31,7 @@ private const val ARG_PARAM2 = "param2"
  * Use the [SalonAppointmentFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class SalonAppointmentFragment : Fragment() {
+class SalonAppointmentFragment : Fragment(), AppointmentDeletedListener {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
@@ -82,7 +82,7 @@ class SalonAppointmentFragment : Fragment() {
                 salonAppointments.appointments.sortedBy { it.startTimestamp }
             // Passamos para o adapter (SalonHomeAdapter) os agendamentos de hoje para ele serializar e disponibilizar a Interface (Tela)
             listView.adapter =
-                SalonAppointmentsAdapter(requireContext(), sortedAppointments)
+                SalonAppointmentsAdapter(requireContext(), sortedAppointments, this@SalonAppointmentFragment)
         }
 
         // Verifica o click no calendário e busca os agendamentos pra data selecionada
@@ -102,7 +102,7 @@ class SalonAppointmentFragment : Fragment() {
                         salonAppointments.appointments.sortedBy { it.startTimestamp }
                     // Passamos para o adapter (SalonHomeAdapter) os agendamentos de hoje para ele serializar e disponibilizar a Interface (Tela)
                     listView.adapter =
-                        SalonAppointmentsAdapter(requireContext(), sortedAppointments)
+                        SalonAppointmentsAdapter(requireContext(), sortedAppointments, this@SalonAppointmentFragment)
                 }
             }
     }
@@ -121,7 +121,7 @@ class SalonAppointmentFragment : Fragment() {
                 salonAppointments.appointments.sortedBy { it.startTimestamp }
             // Passamos para o adapter (SalonHomeAdapter) os agendamentos de hoje para ele serializar e disponibilizar a Interface (Tela)
             listView.adapter =
-                SalonAppointmentsAdapter(requireContext(), sortedAppointments)
+                SalonAppointmentsAdapter(requireContext(), sortedAppointments, this@SalonAppointmentFragment)
         }
     }
 
@@ -157,4 +157,26 @@ class SalonAppointmentFragment : Fragment() {
                 }
             }
     }
+
+    override fun onAppointmentDeleted() {
+        calendarView.date = Calendar.getInstance().timeInMillis
+        val currentSelectedDate = getTodayDateFromCalendarView(calendarView)
+        salonAppointmentsRepository.getSalonAppointmentsByDate(currentSelectedDate) { salonAppointments ->
+            Log.d(
+                "SalonAppointmentsFragment",
+                "Agendamentos de $currentSelectedDate: ${salonAppointments.appointments}"
+            )
+            // ordena os agendamentos com base no startTimestamp
+            val sortedAppointments =
+                salonAppointments.appointments.sortedBy { it.startTimestamp }
+            // Passamos para o adapter (SalonHomeAdapter) os agendamentos de hoje para ele serializar e disponibilizar a Interface (Tela)
+            listView.adapter =
+                SalonAppointmentsAdapter(requireContext(), sortedAppointments, this@SalonAppointmentFragment)
+        }
+    }
+
+}
+
+interface AppointmentDeletedListener {
+    fun onAppointmentDeleted()
 }

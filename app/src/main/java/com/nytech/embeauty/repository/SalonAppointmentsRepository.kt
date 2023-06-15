@@ -164,4 +164,45 @@ class SalonAppointmentsRepository {
                 }
             }
     }
+
+    // Delete: Função para excluir um agendamento usando UUID
+    fun deleteSalonAppointment(appointment: SalonAppointments.Appointment, onComplete: () -> Unit) {
+        // Pega o dia no formato [dd/MM/yyyy] que está na propriedade startDateTime [dd/MM/yyyy, HH:mm] do appointment
+        val startDate = appointment.startDateTime.split(",")[0]
+        val salonAppointmentsDocumentReference =
+            getSalonAppointmentsDocumentReferenceByDate(startDate)
+
+        salonAppointmentsDocumentReference
+            .get()
+            .addOnSuccessListener { documentSnapshot ->
+                // Caso a requisição do get() der sucesso, devolve os dados de SalonAppointments
+                val salonAppointments = documentSnapshot.toObject(SalonAppointments::class.java)
+                if (salonAppointments != null) {
+                    // Faz uma cópia dos agendamentos existentes para poder excluir um agendamento
+                    val updatedAppointments = salonAppointments.appointments.toMutableList()
+
+                    // Encontra o agendamento a ser excluído pelo UUID
+                    val appointmentToBeDeleted =
+                        updatedAppointments.find { it.uuid == appointment.uuid }
+                    if (appointmentToBeDeleted != null) {
+                        // Remove o agendamento com aquele UUID que encontramos acima
+                        updatedAppointments.remove(appointmentToBeDeleted)
+                        // Substitui a lista antiga pela lista com o agendamento deletado
+                        salonAppointments.appointments = updatedAppointments
+
+                        // Com a nova lista de agendamentos atualizadas, faz uma nova chamada ao Database para colocar essa nova lista no lugar da anterior
+                        salonAppointmentsDocumentReference
+                            .set(salonAppointments)
+                            .addOnSuccessListener {
+                                // Caso tenha sucesso na atualização do serviço
+                                onComplete()
+                            }
+                            .addOnFailureListener {
+                                // Em caso de falha na atualização do serviço
+                                TODO("Implementar alguma mensagem quando ocorrer erro na atualização")
+                            }
+                    }
+                }
+            }
+    }
 }
