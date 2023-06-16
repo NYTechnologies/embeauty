@@ -16,12 +16,22 @@
         android:orientation="vertical"
         android:padding="16dp">
 
+        <!-- Title -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:padding="16dp"
+            android:text="Edição de serviço"
+            android:textSize="20sp" />
+
         <!-- Nome -->
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/til_service_name_update"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
+            android:hint="Serviço"
             app:endIconMode="clear_text"
             app:helperText="Nome do Serviço">
 
@@ -35,39 +45,23 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
-        <!--        &lt;!&ndash; Duração &ndash;&gt;
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/til_service_duration"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
-                    android:hint="Duração em minutos"
-                    app:endIconMode="clear_text"
-                    app:helperText="Duração do serviço (min)">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/edit_service_duration"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:backgroundTint="@color/gray_light"
-                        android:inputType="number" />
-
-                </com.google.android.material.textfield.TextInputLayout>-->
-
         <!-- Preço -->
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/til_service_price_update"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:hint="Preço"
             app:endIconMode="clear_text"
-            app:helperText="Preço do serviço">
+            app:helperText="Preço do Serviço">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/edit_service_price_update"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/gray_light"
-                android:inputType="numberDecimal" />
+                android:text="R$ "
+                android:inputType="numberDecimal"
+                android:maxLength="10"/>
 
         </com.google.android.material.textfield.TextInputLayout>
 

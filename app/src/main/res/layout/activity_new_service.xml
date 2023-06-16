@@ -16,6 +16,15 @@
         android:orientation="vertical"
         android:padding="16dp">
 
+        <!-- Title -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:padding="16dp"
+            android:text="Novo serviço"
+            android:textSize="20sp" />
+
         <!-- Nome -->
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/til_service_name"
@@ -36,25 +45,6 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
-<!--        &lt;!&ndash; Duração &ndash;&gt;
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/til_service_duration"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:hint="Duração em minutos"
-            app:endIconMode="clear_text"
-            app:helperText="Duração do serviço (min)">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/edit_service_duration"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:backgroundTint="@color/gray_light"
-                android:inputType="number" />
-
-        </com.google.android.material.textfield.TextInputLayout>-->
-
         <!-- Preço -->
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/til_service_price"
@@ -62,7 +52,7 @@
             android:layout_height="wrap_content"
             android:hint="Preço"
             app:endIconMode="clear_text"
-            app:helperText="Preço do serviço">
+            app:helperText="Preço do Serviço">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/edit_service_price"
@@ -70,7 +60,8 @@
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/gray_light"
                 android:text="R$ "
-                android:inputType="numberDecimal" />
+                android:inputType="numberDecimal"
+                android:maxLength="10"/>
 
         </com.google.android.material.textfield.TextInputLayout>
 

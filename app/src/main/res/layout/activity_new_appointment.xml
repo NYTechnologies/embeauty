@@ -13,6 +13,15 @@
         android:orientation="vertical"
         android:padding="16dp">
 
+        <!-- Title -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:padding="16dp"
+            android:text="Novo agendamento"
+            android:textSize="20sp" />
+
         <!-- Nome do Cliente -->
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/til_client_name"
@@ -46,7 +55,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/gray_light"
-                android:inputType="phone" />
+                android:inputType="phone"
+                android:maxLength="13"/>
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -83,7 +93,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/gray_light"
-                android:inputType="number" />
+                android:inputType="number"
+                android:maxLength="3"/>
 
         </com.google.android.material.textfield.TextInputLayout>
 

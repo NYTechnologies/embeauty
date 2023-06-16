@@ -31,7 +31,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
             android:fontFamily="sans-serif"
-            android:text="bem-vindo (a)"
+            android:text="@string/bem_vinda_o"
             android:textColor="@android:color/black"
             android:textSize="18sp" />
 
