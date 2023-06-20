@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".view.salon.SalonProfileUpdateActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <!-- Title -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:padding="16dp"
+            android:text="Perfil da empresa"
+            android:textSize="20sp" />
+
+        <!-- Business Name field -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/til_update_salon_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/nome_fantasia"
+            app:endIconMode="clear_text"
+            android:layout_marginBottom="10dp"
+            app:helperText="Atualize o nome fantasia do seu negócio">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edit_update_salon_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/gray_light"
+                android:inputType="text" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Phone field -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/til_update_salon_phone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/telefone"
+            app:endIconMode="clear_text"
+            android:layout_marginBottom="10dp"
+            app:helperText="Atualize seu telefone">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edit_update_salon_phone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/gray_light"
+                android:inputType="phone" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <Button
+            android:id="@+id/button_update_profile"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="36dp"
+            android:padding="16dp"
+            android:text="Editar perfil" />
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

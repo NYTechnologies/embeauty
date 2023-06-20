@@ -1,5 +1,6 @@
 package com.nytech.embeauty.fragment
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -11,6 +12,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.nytech.embeauty.R
 import com.nytech.embeauty.repository.FirebaseAuthRepository
 import com.nytech.embeauty.view.salon.SalonLoginActivity
+import com.nytech.embeauty.view.salon.SalonProfileUpdateActivity
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -37,6 +39,7 @@ class SalonSettingsFragment : Fragment() {
 
     private val firebaseAuthRepository = FirebaseAuthRepository()
 
+    @SuppressLint("MissingInflatedId")
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -47,6 +50,12 @@ class SalonSettingsFragment : Fragment() {
         val logoutButton = view.findViewById<Button>(R.id.btn_logout)
         logoutButton.setOnClickListener {
             logout()
+        }
+        //redirecionamento do botão de edição de perfil do usuário
+        val profileButton = view.findViewById<Button>(R.id.btn_edit_profile)
+        profileButton.setOnClickListener {
+            val intent = Intent(requireContext(), SalonProfileUpdateActivity::class.java)
+            startActivity(intent)
         }
 
         return view
