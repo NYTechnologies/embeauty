@@ -4,6 +4,7 @@ import android.app.Activity
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.nytech.embeauty.model.SalonProfile
+import com.nytech.embeauty.view.salon.SalonProfileUpdateActivity
 import com.nytech.embeauty.view.salon.SalonRegisterActivity
 
 
@@ -65,5 +66,25 @@ class SalonProfileRepository {
                 // Caso a req de set() falhe no cadastro do Salão
                 TODO("Implementar alguma mensagem quando der erro no cadastro")
             }
+    }
+
+    //função p editar o perfil do salão (Salon Profile)
+    fun updateSalon(activity: Activity, newSalonProfile: SalonProfile) {
+        val salonProfileDocumentReference = getSalonProfileDocumentReference()
+
+        salonProfileDocumentReference
+            .set(newSalonProfile)
+            .addOnCompleteListener {
+                // Caso a req de set() tenha sucesso na edição do Salão, finalizar a SalonProfileUpdateActivity
+                when (activity) {
+                    is SalonProfileUpdateActivity -> {
+                        activity.salonUpdateSuccess()
+                    }
+                }
+            }.addOnFailureListener {
+                // Caso a req de set() falhe no cadastro do Salão
+                TODO("Implementar alguma mensagem quando der erro no cadastro")
+            }
+
     }
 }

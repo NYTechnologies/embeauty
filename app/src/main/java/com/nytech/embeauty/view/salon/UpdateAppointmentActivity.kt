@@ -143,6 +143,7 @@ class UpdateAppointmentActivity : AppCompatActivity() {
             }
             .setPositiveButton("OK") { _, _ ->
                 binding.editUpdateServiceNameAppointment.setText(selectedService)
+
                 binding.editUpdateServiceNameAppointment.isFocusable = true
             }
             .setNegativeButton("Cancelar") { _, _ ->
