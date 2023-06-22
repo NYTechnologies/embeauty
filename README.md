@@ -29,6 +29,9 @@ Aplicativo Android Nativo para Gestão de Salões de Beleza.
 </h1>
 
 - [ ] Tela de 'Settings': opções gerais da conta
+<h1>
+  <img src="docs/readme/images/edit_profile_screen.png"  width="300" height="600">
+</h1>
 
 ## Features Futuras:
 - [ ] Features de gestão financeira: lucro diário, mensal, balanços, etc
